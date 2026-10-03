@@ -1,0 +1,6 @@
+name = "freetools-ai-api"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+AI_MODEL = "gpt-5.6-mini"
