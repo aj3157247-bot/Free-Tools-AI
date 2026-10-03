@@ -1,61 +1,51 @@
-# FreeTools AI
+# FreeTools AI v2 — GitHub / Cloudflare Ready
 
-A global free-tools + AI website starter designed for fast deployment, SEO landing pages, browser-side processing and a secure AI API layer.
+This version replaces the visual-only prototype with real browser tools and a secure Worker API layer.
 
-## Included tools
+## Real browser tools
+- JPG / PNG / WebP converter
+- Image compressor
+- Image resizer
+- HEIC / HEIF → JPG
+- JPG/PNG → PDF
+- PDF → JPG
+- PDF → Text
+- PDF → editable DOCX (selectable-text PDFs)
+- OCR / Image → Text (English, Persian, Arabic)
+- QR Code generator
 
-- Image Converter — JPG / PNG / WebP
-- Image Compressor
-- Image Resizer
-- Remove Background landing workflow
-- PDF to Text
-- PDF to Word starter for text PDFs
-- JPG to PDF
-- QR Code Generator
-- AI assistant endpoint
+## API tools
+- AI Summarizer
+- AI Translator
+- AI Rewriter
+- AI Chat
+- Remove Background via Remove.bg
 
-## Recommended deployment
+## Cloudflare Pages settings
+Production branch: `main`
+Framework preset: `None`
+Build command: `exit 0`
+Build output directory: `/`
+Root directory: empty
 
-### Option A — Cloudflare Workers / Pages
+## API — easiest setup with your current Cloudflare Pages project
+This ZIP includes **Pages Functions** at `functions/api/ai.js` and `functions/api/remove-background.js`. Cloudflare Pages can deploy these alongside the static site, so the frontend can keep calling `/api/ai` and `/api/remove-background` on the same domain.
 
-Cloudflare currently recommends Workers for new applications, while Pages remains available for static deployments. Static HTML can be deployed directly from GitHub. See Cloudflare docs:
-https://developers.cloudflare.com/pages/
+In Cloudflare Pages → Settings → Environment variables, add:
+- `OPENAI_API_KEY`
+- `REMOVE_BG_API_KEY`
+- optional `AI_MODEL` (defaults to `gpt-5.6-mini`)
 
-For the static site:
-- Connect this GitHub repository.
-- If using Pages for this static version, build command can be empty / `exit 0`.
-- Output directory: `/`
+The old standalone Worker is also included under `cloudflare-worker/` if you later want a separate API service.
 
-For the AI API:
-1. Create a Cloudflare Worker from `/cloudflare-worker`.
-2. Add secret:
-   `wrangler secret put OPENAI_API_KEY`
-3. Deploy the Worker.
-4. Put the Worker `/ai` URL into `AI_ENDPOINT` in `app.js`.
+### Important
+Do NOT put API keys in `index.html`, `app.js`, or any frontend JavaScript. Keep them as Cloudflare secrets/environment variables.
 
 ## Supabase
+Not required for launch. Add later for accounts, saved history, favorites, usage records, subscriptions and cloud storage.
 
-NOT required for the first launch.
+## SEO
+The project has separate intent pages. After deployment, replace relative canonical URLs with the final domain, add the domain to Google Search Console, and submit `/sitemap.xml`. Avoid thin doorway pages; each SEO page should contain useful, unique content.
 
-Add Supabase later if you need:
-- user accounts
-- saved history
-- cloud file storage
-- usage records
-- favorites
-- admin dashboard
-- subscriptions
-
-## Important production upgrades
-
-Before scaling paid traffic or very high traffic:
-- add rate limiting to AI
-- add abuse protection / bot protection
-- add analytics + Search Console
-- add a proper OCR engine for scanned PDFs
-- replace the lightweight PDF-to-Word starter with a production PDF/DOCX pipeline
-- connect a real background-removal model/API
-- add sitemap.xml and robots.txt for the final domain
-- add localized SEO pages
-
-The site intentionally keeps the first launch simple: free tools should work without an account wherever possible.
+## External libraries
+Browser tools use pinned jsDelivr versions. For long-term scale, vendor/test the dependencies inside the repository.

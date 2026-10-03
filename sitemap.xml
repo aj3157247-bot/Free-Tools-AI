@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>/</loc></url>
-<url><loc>/tools/image-converter/</loc></url>
-<url><loc>/tools/image-compressor/</loc></url>
-<url><loc>/tools/image-resizer/</loc></url>
-<url><loc>/tools/remove-background/</loc></url>
-<url><loc>/tools/pdf-to-text/</loc></url>
-<url><loc>/tools/pdf-to-word/</loc></url>
-<url><loc>/tools/jpg-to-pdf/</loc></url>
-<url><loc>/tools/qr-code/</loc></url>
-</urlset>
+<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>/</loc></url><url><loc>/tools/</loc></url><url><loc>/tools/pdf-to-word/</loc></url><url><loc>/tools/pdf-to-text/</loc></url><url><loc>/tools/pdf-to-jpg/</loc></url><url><loc>/tools/pdf-compressor/</loc></url><url><loc>/tools/jpg-to-pdf/</loc></url><url><loc>/tools/heic-to-jpg/</loc></url><url><loc>/tools/image-converter/</loc></url><url><loc>/tools/image-compressor/</loc></url><url><loc>/tools/image-resizer/</loc></url><url><loc>/tools/image-to-text/</loc></url><url><loc>/tools/ocr/</loc></url><url><loc>/tools/remove-background/</loc></url><url><loc>/tools/qr-code-generator/</loc></url><url><loc>/ai/summarizer/</loc></url><url><loc>/ai/translator/</loc></url><url><loc>/ai/rewriter/</loc></url><url><loc>/ai/chat/</loc></url><url><loc>/privacy/</loc></url></urlset>
