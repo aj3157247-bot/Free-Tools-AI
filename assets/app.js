@@ -1,1 +1,16 @@
-const tools=[['PDF to Word','/tools/pdf-to-word/'],['PDF to JPG','/tools/pdf-to-jpg/'],['PDF Compressor','/tools/pdf-compressor/'],['JPG to PDF','/tools/jpg-to-pdf/'],['HEIC to JPG','/tools/heic-to-jpg/'],['Image Converter','/tools/image-converter/'],['Image Compressor','/tools/image-compressor/'],['Image Resizer','/tools/image-resizer/'],['Image to Text','/tools/image-to-text/'],['OCR','/tools/ocr/'],['Remove Background','/tools/remove-background/'],['QR Code Generator','/tools/qr-code-generator/']];document.addEventListener('DOMContentLoaded',()=>{const i=document.querySelector('#toolSearch');if(!i)return;const box=document.createElement('div');box.style.cssText='position:absolute;left:0;right:0;top:62px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 20px 45px #1018281f;z-index:30;display:none;overflow:hidden;text-align:left';i.parentElement.appendChild(box);i.oninput=()=>{const q=i.value.toLowerCase().trim(),m=tools.filter(x=>x[0].toLowerCase().includes(q)).slice(0,7);box.innerHTML=m.map(x=>`<a href="${x[1]}" style="display:block;padding:13px 16px;color:#101828;text-decoration:none;border-bottom:1px solid #f0f1f3;font-weight:700">${x[0]}</a>`).join('');box.style.display=q&&m.length?'block':'none'};i.onblur=()=>setTimeout(()=>box.style.display='none',150)});
+document.addEventListener('DOMContentLoaded',()=>{
+  const i=document.querySelector('#toolSearch');
+  if(!i)return;
+  const box=document.createElement('div');
+  box.style.cssText='position:absolute;left:0;right:0;top:62px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 20px 45px #1018281f;z-index:30;display:none;overflow:hidden;text-align:start';
+  i.parentElement.appendChild(box);
+  const norm=s=>String(s).toLowerCase().replace(/ي/g,'ی').replace(/ك/g,'ک').trim();
+  i.oninput=()=>{
+    const FT=window.FT||{tools:[],lang:()=>'en'};
+    const fa=FT.lang()==='fa',q=norm(i.value);
+    const m=FT.tools.filter(x=>norm(x.en+' '+x.fa).includes(q)).slice(0,7);
+    box.innerHTML=m.map(x=>`<a href="${x.path}" style="display:block;padding:13px 16px;color:#101828;text-decoration:none;border-bottom:1px solid #f0f1f3;font-weight:700">${x.emoji} ${fa?x.fa:x.en}</a>`).join('');
+    box.style.display=q&&m.length?'block':'none';
+  };
+  i.onblur=()=>setTimeout(()=>box.style.display='none',150);
+});
