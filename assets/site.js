@@ -81,7 +81,7 @@
     'All tools': 'همه ابزارها',
     'Privacy': 'حریم خصوصی',
     'Fast free online tools for PDF, images, OCR, QR codes and AI. No signup required for basic tools.': 'ابزارهای آنلاین رایگان و سریع برای PDF، تصویر، OCR، کد QR و هوش مصنوعی. برای ابزارهای پایه نیازی به ثبت‌نام نیست.',
-    "Browser tools process files locally whenever possible. AI features send submitted text to the configured AI provider through the Worker. Do not submit sensitive information unless you understand the provider and site's policies.": 'ابزارهای مرورگری تا حد امکان فایل‌ها را روی دستگاه شما پردازش می‌کنند. قابلیت‌های هوش مصنوعی متن ارسالی را از طریق سرور به ارائه‌دهنده هوش مصنوعی می‌فرستند. اطلاعات حساس ارسال نکنید، مگر اینکه با سیاست‌های ارائه‌دهنده و سایت آشنا باشید.',
+    'Browser tools process files locally whenever possible. AI features send the text you submit to an AI provider. Do not submit sensitive information.': 'ابزارهای مرورگری تا حد امکان فایل‌ها را روی دستگاه شما پردازش می‌کنند. قابلیت‌های هوش مصنوعی متنی را که ارسال می‌کنید به یک ارائه‌دهنده هوش مصنوعی می‌فرستند. اطلاعات حساس ارسال نکنید.',
     'Convert HEIC/HEIF iPhone photos to JPG directly in your browser.': 'عکس‌های HEIC/HEIF آیفون را مستقیماً در مرورگر به JPG تبدیل کنید.',
     'Drop a HEIC / HEIF photo': 'یک عکس HEIC / HEIF را اینجا رها کنید',
     'or tap to choose': 'یا برای انتخاب لمس کنید',
@@ -117,7 +117,7 @@
     'Create a QR code from any URL or text.': 'از هر آدرس یا متن، یک کد QR بسازید.',
     'Generate': 'ساخت',
     'Create and download QR codes for free.': 'کدهای QR را رایگان بسازید و دانلود کنید.',
-    'Remove image backgrounds and download transparent PNG using a secure Worker API.': 'پس‌زمینه تصویر را حذف کنید و PNG شفاف دانلود کنید.',
+    'Remove image backgrounds and download a transparent PNG.': 'پس‌زمینه تصویر را حذف کنید و PNG شفاف دانلود کنید.',
     'The API key stays on the Cloudflare Worker. Configure REMOVE_BG_API_KEY on the Worker before using this tool.': 'کلید API روی سرور امن نگهداری می‌شود.',
     'Open / save QR': 'باز کردن / ذخیره QR',
     /* page titles */
