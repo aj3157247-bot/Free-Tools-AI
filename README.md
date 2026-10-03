@@ -1,51 +1,42 @@
-# FreeTools AI v2 — GitHub / Cloudflare Ready
+# FreeTools — Cloudflare Pages Worker API
 
-This version replaces the visual-only prototype with real browser tools and a secure Worker API layer.
+Copy the `functions` folder and `wrangler.toml` into the ROOT of the same GitHub repository that deploys `free-tools-ai.pages.dev`.
 
-## Real browser tools
-- JPG / PNG / WebP converter
-- Image compressor
-- Image resizer
-- HEIC / HEIF → JPG
-- JPG/PNG → PDF
-- PDF → JPG
-- PDF → Text
-- PDF → editable DOCX (selectable-text PDFs)
-- OCR / Image → Text (English, Persian, Arabic)
-- QR Code generator
+## Cloudflare Secrets
 
-## API tools
-- AI Summarizer
-- AI Translator
-- AI Rewriter
-- AI Chat
-- Remove Background via Remove.bg
+Dashboard → Workers & Pages → free-tools-ai → Settings → Variables and Secrets → Add.
 
-## Cloudflare Pages settings
-Production branch: `main`
-Framework preset: `None`
-Build command: `exit 0`
-Build output directory: `/`
-Root directory: empty
+Create these as **Secret / Encrypt**:
 
-## API — easiest setup with your current Cloudflare Pages project
-This ZIP includes **Pages Functions** at `functions/api/ai.js` and `functions/api/remove-background.js`. Cloudflare Pages can deploy these alongside the static site, so the frontend can keep calling `/api/ai` and `/api/remove-background` on the same domain.
+- `OPENAI_API_KEY` = your OpenAI API key
+- `REMOVE_BG_API_KEY` = your remove.bg API key
 
-In Cloudflare Pages → Settings → Environment variables, add:
-- `OPENAI_API_KEY`
-- `REMOVE_BG_API_KEY`
-- optional `AI_MODEL` (defaults to `gpt-5.6-mini`)
+Do not put either key in browser JavaScript or GitHub.
 
-The old standalone Worker is also included under `cloudflare-worker/` if you later want a separate API service.
+## Endpoints
 
-### Important
-Do NOT put API keys in `index.html`, `app.js`, or any frontend JavaScript. Keep them as Cloudflare secrets/environment variables.
+- `GET /api/health`
+- `POST /api/ai`
+- `POST /api/remove-background`
 
-## Supabase
-Not required for launch. Add later for accounts, saved history, favorites, usage records, subscriptions and cloud storage.
+The frontend should call `/api/ai` and `/api/remove-background` on the same domain. If the current frontend has `AI_ENDPOINT`, set it to `/api/ai`.
 
-## SEO
-The project has separate intent pages. After deployment, replace relative canonical URLs with the final domain, add the domain to Google Search Console, and submit `/sitemap.xml`. Avoid thin doorway pages; each SEO page should contain useful, unique content.
+### AI body
 
-## External libraries
-Browser tools use pinned jsDelivr versions. For long-term scale, vendor/test the dependencies inside the repository.
+```json
+{"prompt":"Summarize this text: ...","system":"Be concise."}
+```
+
+### Remove background
+
+Send `multipart/form-data` with `image_file`.
+
+## Deploy
+
+Commit/push to `main`; Cloudflare Pages will deploy the Pages Functions automatically.
+
+No separate Worker URL is required.
+
+Supabase is not required for these APIs. Add it later for accounts, history, favorites, usage records, subscriptions, or storage.
+
+The included rate limiter is lightweight. For large public traffic, add Turnstile and a durable rate-limit design before exposing expensive endpoints without limits.
