@@ -160,6 +160,8 @@
     'Drop images': 'تصاویر را اینجا رها کنید',
     'Convert to PDF': 'تبدیل به PDF',
     'Images are combined into one PDF in the order you select them.': 'تصاویر به ترتیبی که انتخاب می‌کنید در یک PDF ترکیب می‌شوند.',
+    'Selected:': 'فایل انتخاب‌شده:',
+    'Network error. Check your connection or turn off your VPN, then try again.': 'خطای شبکه. اتصال اینترنت را بررسی کنید یا VPN را خاموش کنید و دوباره تلاش کنید.',
     'Download QR PNG': 'دانلود QR (PNG)',
     'Removing background…': 'در حال حذف پس‌زمینه…',
     'AI request failed': 'درخواست هوش مصنوعی ناموفق بود.',
@@ -175,9 +177,10 @@
     [/^Original: (.+) → (.+)$/, function (m) { return 'اصلی: ' + m[1] + ' ← ' + m[2]; }],
     [/^Original: (.+)$/, function (m) { return 'اصلی: ' + m[1]; }],
     [/^Selected: (.+)$/, function (m) { return 'فایل انتخاب‌شده: ' + m[1]; }],
-    [/^Download (.+)$/, function (m) { return 'دانلود ' + m[1]; }],
+    [/^Download (.+)$/, function (m) { return 'دانلود \u2068' + m[1] + '\u2069'; }],
     [/^OCR (\d+%)$/, function (m) { return 'OCR ' + m[1]; }],
-    [/^Background-removal API is not configured or failed: (.*)$/, function (m) { return 'سرویس حذف پس‌زمینه تنظیم نشده یا با خطا مواجه شد: ' + m[1]; }]
+    [/^Background-removal API is not configured or failed: (.*)$/, function (m) { return 'سرویس حذف پس‌زمینه تنظیم نشده یا با خطا مواجه شد: \u2068' + m[1] + '\u2069'; }],
+    [/^Could not remove the background: (.*)$/, function (m) { return 'حذف پس‌زمینه انجام نشد: \u2068' + m[1] + '\u2069'; }]
   ];
 
   /* ---------- state ---------- */
