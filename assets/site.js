@@ -82,6 +82,27 @@
     document.title=lang==='fa'?'دانلود اپلیکیشن FreeTools AI':'Download FreeTools AI App';
   }
 
+
+  // Lightweight privacy-friendly analytics: no names, emails, or raw IPs are stored.
+  function ftAnalytics(){
+    try {
+      var sid = localStorage.getItem('ft_analytics_sid');
+      if(!sid){ sid = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+'-'+Math.random()); localStorage.setItem('ft_analytics_sid',sid); }
+      var payload={sid:sid,path:location.pathname||'/',title:document.title||'',referrer:document.referrer||'',lang:lang,screen:window.innerWidth+'x'+window.innerHeight};
+      fetch('/api/analytics',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload),keepalive:true}).catch(function(){});
+      window.setInterval(function(){
+        fetch('/api/analytics',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({sid:sid,path:location.pathname||'/',heartbeat:true}),keepalive:true}).catch(function(){});
+      },60000);
+      document.addEventListener('click',function(e){
+        var a=e.target.closest && e.target.closest('a');
+        if(!a) return;
+        var href=a.getAttribute('href')||'';
+        if(href.indexOf('/downloads/')===0 || href.indexOf('/download/')===0 || href.indexOf('appstore')>=0 || href.indexOf('windows')>=0){
+          fetch('/api/analytics',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({sid:sid,path:location.pathname||'/',event:'click',target:href}),keepalive:true}).catch(function(){});
+        }
+      },{passive:true});
+    } catch(_){}
+  }
   applyDirection();
   document.addEventListener('DOMContentLoaded', function(){makeMenu();translateHome();translateDownloadPage();});
 })();
