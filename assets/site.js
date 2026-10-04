@@ -52,12 +52,36 @@
       '⚡ FREE • FAST • PRIVACY-FIRST':'⚡ رایگان • سریع • حفظ حریم خصوصی',
       'Everyday tools.':'ابزارهای روزمره.', 'One simple place.':'همه در یک جای ساده.',
       'Convert, compress, resize, extract text and use practical AI tools without creating an account.':'تبدیل، فشرده‌سازی، تغییر اندازه، استخراج متن و استفاده از ابزارهای کاربردی هوش مصنوعی؛ بدون نیاز به ساخت حساب.',
-      'Tools people need':'ابزارهایی که واقعاً نیاز دارید','POPULAR':'محبوب','Useful AI, not hype':'هوش مصنوعی کاربردی، بدون تبلیغات اضافی','AI WORKSPACE':'فضای هوش مصنوعی','FREE GUIDES':'راهنماهای رایگان','How to get better results':'چطور نتیجه بهتری بگیریم','Simple by design':'ساده و کاربردی','Choose a tool':'یک ابزار انتخاب کنید','Process your file':'فایل خود را پردازش کنید','Download':'دانلود','View all →':'مشاهده همه ←'
+      'Tools people need':'ابزارهایی که واقعاً نیاز دارید','POPULAR':'محبوب','Useful AI, not hype':'هوش مصنوعی کاربردی، بدون تبلیغات اضافی','AI WORKSPACE':'فضای هوش مصنوعی','FREE GUIDES':'راهنماهای رایگان','How to get better results':'چطور نتیجه بهتری بگیریم','Simple by design':'ساده و کاربردی','Choose a tool':'یک ابزار انتخاب کنید','Process your file':'فایل خود را پردازش کنید','Download':'دانلود','View all →':'مشاهده همه ←',
+      'ANDROID APP':'اپلیکیشن اندروید','FreeTools AI on your phone':'FreeTools AI روی گوشی شما','Get faster access to FreeTools AI with our Android app. Free to download and ready to use.':'با اپلیکیشن اندروید FreeTools AI سریع‌تر به ابزارهای ما دسترسی داشته باشید. دانلود رایگان و آماده استفاده است.','⬇️ Download FreeTools AI':'⬇️ دانلود FreeTools AI','Learn more →':'اطلاعات بیشتر ←','AVAILABLE ON MORE PLATFORMS':'در پلتفرم‌های بیشتر در دسترس است','FreeTools AI everywhere':'FreeTools AI همه‌جا همراه شما','Use FreeTools AI on Android today. iPhone and Windows versions are coming soon.':'امروز از FreeTools AI در اندروید استفاده کنید. نسخه‌های آیفون و ویندوز به‌زودی ارائه می‌شوند.','ANDROID':'اندروید','Android App':'اپلیکیشن اندروید','Download APK':'دانلود APK','Download Android App':'دانلود اپلیکیشن اندروید','IPHONE / iOS':'آیفون / iOS','iPhone App':'اپلیکیشن آیفون','The iPhone version is being prepared for the App Store.':'نسخه آیفون در حال آماده‌سازی برای انتشار در App Store است.','WINDOWS':'ویندوز','Windows App':'اپلیکیشن ویندوز','A dedicated Windows version is planned. Until then, you can use the full web version.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. تا آن زمان می‌توانید از نسخه کامل وب استفاده کنید.','A dedicated Windows version is planned. You can use the web version right now.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. فعلاً می‌توانید از نسخه وب استفاده کنید.','Coming soon':'به‌زودی','Use Web Version':'استفاده از نسخه وب'
     };
     document.querySelectorAll('h1,h2,h3,p,small,b,a,span,button').forEach(function(el){if(el.children.length) return; var s=el.textContent.trim(); if(map[s]) el.textContent=map[s];});
     var search=document.getElementById('toolSearch'); if(search) search.placeholder=lang==='fa'?'جستجوی PDF، JPG، OCR، QR و...':'Search PDF, JPG, OCR, QR...';
   }
 
+  function translateDownloadPage(){
+    if(location.pathname!=='/download/' && location.pathname!=='/download/index.html') return;
+    var map={
+      'FREE • FAST • ANDROID':'رایگان • سریع • اندروید',
+      'FreeTools AI App':'اپلیکیشن FreeTools AI',
+      'Take your favorite free tools with you. Convert, compress, resize, extract text and use practical AI tools from your Android device.':'ابزارهای رایگان موردعلاقه‌تان را همیشه همراه خود داشته باشید. با گوشی اندرویدی خود تبدیل، فشرده‌سازی، تغییر اندازه، استخراج متن و استفاده از ابزارهای کاربردی هوش مصنوعی را انجام دهید.',
+      'Download Android App':'دانلود اپلیکیشن اندروید',
+      'APK • Free • Direct download':'APK • رایگان • دانلود مستقیم',
+      'Android':'اندروید',
+      'Install the app directly on your phone.':'اپلیکیشن را مستقیماً روی گوشی خود نصب کنید.',
+      'Free tools':'ابزارهای رایگان',
+      'Access PDF, image, OCR and AI tools.':'به ابزارهای PDF، تصویر، OCR و هوش مصنوعی دسترسی داشته باشید.',
+      'Fast access':'دسترسی سریع','AVAILABLE ON MORE PLATFORMS':'در پلتفرم‌های بیشتر در دسترس است','FreeTools AI everywhere':'FreeTools AI همه‌جا همراه شما','Use FreeTools AI on Android today. iPhone and Windows versions are coming soon.':'امروز از FreeTools AI در اندروید استفاده کنید. نسخه‌های آیفون و ویندوز به‌زودی ارائه می‌شوند.','ANDROID':'اندروید','Android App':'اپلیکیشن اندروید','Download APK':'دانلود APK','Download Android App':'دانلود اپلیکیشن اندروید','IPHONE / iOS':'آیفون / iOS','iPhone App':'اپلیکیشن آیفون','The iPhone version is being prepared for the App Store.':'نسخه آیفون در حال آماده‌سازی برای انتشار در App Store است.','WINDOWS':'ویندوز','Windows App':'اپلیکیشن ویندوز','A dedicated Windows version is planned. Until then, you can use the full web version.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. تا آن زمان می‌توانید از نسخه کامل وب استفاده کنید.','A dedicated Windows version is planned. You can use the web version right now.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. فعلاً می‌توانید از نسخه وب استفاده کنید.','Coming soon':'به‌زودی','Use Web Version':'استفاده از نسخه وب',
+      'Open FreeTools AI quickly from your home screen.':'FreeTools AI را سریع از صفحه اصلی گوشی باز کنید.'
+    };
+    document.querySelectorAll('h1,h2,h3,p,small,b,a,span,div').forEach(function(el){
+      if(el.children.length) return;
+      var s=el.textContent.trim();
+      if(map[s]) el.textContent=map[s];
+    });
+    document.title=lang==='fa'?'دانلود اپلیکیشن FreeTools AI':'Download FreeTools AI App';
+  }
+
   applyDirection();
-  document.addEventListener('DOMContentLoaded', function(){makeMenu();translateHome();});
+  document.addEventListener('DOMContentLoaded', function(){makeMenu();translateHome();translateDownloadPage();});
 })();
