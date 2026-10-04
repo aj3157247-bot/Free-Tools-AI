@@ -127,5 +127,5 @@
     }).catch(function(){});
   }
   applyDirection();
-  document.addEventListener('DOMContentLoaded', function(){makeMenu();translateHome();translateDownloadPage();ftAds();});
+  document.addEventListener('DOMContentLoaded', function(){makeMenu();translateHome();translateDownloadPage();ftAds();ftAnalytics();});
 })();
