@@ -1,7 +1,7 @@
 {
   "name": "FreeTools AI — Free Online Tools",
   "short_name": "FreeTools AI",
-  "description": "Free online tools for PDF, images, OCR, conversion, compression and practical AI.",
+  "description": "Free online tools for PDF, images, OCR, conversion, compression and practical AI. Fast, simple and privacy-first.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
@@ -41,5 +41,7 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "lang": "en",
+  "dir": "ltr"
 }
