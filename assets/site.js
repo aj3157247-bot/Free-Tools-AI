@@ -103,6 +103,29 @@
       },{passive:true});
     } catch(_){}
   }
+  function ftAds(){
+    if(document.body.classList.contains('ft-ads-loaded')) return;
+    document.body.classList.add('ft-ads-loaded');
+    var style=document.createElement('style');
+    style.textContent='.ftAd{max-width:1180px;margin:16px auto;padding:0 18px}.ftAdBox{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #e6e7f0;border-radius:16px;padding:12px;box-shadow:0 8px 28px rgba(30,25,80,.06);text-decoration:none;color:inherit;overflow:hidden}.ftAdBox:hover{transform:translateY(-1px)}.ftAdImg{width:180px;height:88px;object-fit:cover;border-radius:10px;background:#eef0f7;flex:0 0 auto}.ftAdCopy{min-width:0;flex:1}.ftAdLabel{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#6b6b78;margin-bottom:4px}.ftAdTitle{font-weight:800;font-size:17px;margin:0 0 4px}.ftAdDesc{font-size:13px;color:#686978;margin:0}.ftAdGo{font-weight:800;font-size:13px;white-space:nowrap}.ftAdBottom{margin-top:28px;margin-bottom:28px}@media(max-width:650px){.ftAd{padding:0 12px}.ftAdBox{gap:11px}.ftAdImg{width:92px;height:70px}.ftAdTitle{font-size:15px}.ftAdDesc{font-size:12px}.ftAdGo{font-size:12px}}';
+    document.head.appendChild(style);
+    fetch('/api/public-ads',{cache:'no-store'}).then(function(r){return r.json()}).then(function(data){
+      var ads=(data&&data.ads)||[]; if(!ads.length) return;
+      var home=location.pathname==='/'||location.pathname==='/index.html';
+      var tool=location.pathname.indexOf('/tools/')===0||location.pathname.indexOf('/ai/')===0;
+      var top=ads.find(function(a){return a.placement==='top'})||ads.find(function(a){return home&&a.placement==='home'})||ads.find(function(a){return tool&&a.placement==='tools'});
+      var special=home?ads.find(function(a){return a.placement==='home'&&(!top||a.id!==top.id)}):tool?ads.find(function(a){return a.placement==='tools'&&(!top||a.id!==top.id)}):null;
+      var bottom=ads.find(function(a){return a.placement==='bottom'&&(!top||a.id!==top.id)&&(!special||a.id!==special.id)});
+      function mount(ad,where,extra){if(!ad)return;var wrap=document.createElement('div');wrap.className='ftAd'+(extra?' ftAdBottom':'');var label=lang==='fa'?'تبلیغ':'Sponsored';wrap.innerHTML='<a class="ftAdBox" href="'+esc(ad.target_url)+'" target="_blank" rel="sponsored noopener noreferrer"><div class="ftAdCopy"><span class="ftAdLabel">'+label+'</span><h3 class="ftAdTitle">'+esc(ad.title)+'</h3>'+(ad.description?'<p class="ftAdDesc">'+esc(ad.description)+'</p>':'')+'</div>'+(ad.image_url?'<img class="ftAdImg" src="'+esc(ad.image_url)+'" alt="">':'')+'<span class="ftAdGo">'+(lang==='fa'?'مشاهده ←':'View →')+'</span></a></div>';
+        var node=where(); if(node) node.insertAdjacentElement(extra?'afterend':'beforebegin',wrap); else document.body.appendChild(wrap);
+        try{var seen=sessionStorage.getItem('ft_ad_seen_'+ad.id);if(!seen){sessionStorage.setItem('ft_ad_seen_'+ad.id,'1');fetch('/api/ad-event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:ad.id,type:'impression'}),keepalive:true}).catch(function(){})}}catch(_){fetch('/api/ad-event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:ad.id,type:'impression'}),keepalive:true}).catch(function(){})}
+        var link=wrap.querySelector('a');link.addEventListener('click',function(){fetch('/api/ad-event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:ad.id,type:'click'}),keepalive:true}).catch(function(){})});
+      }
+      mount(top,function(){return document.querySelector('header.nav')||document.body.firstElementChild});
+      if(special) mount(special,function(){return document.querySelector('.section')||document.querySelector('main')||document.body.firstElementChild});
+      if(bottom) mount(bottom,function(){return document.querySelector('footer')||null},true);
+    }).catch(function(){});
+  }
   applyDirection();
-  document.addEventListener('DOMContentLoaded', function(){makeMenu();translateHome();translateDownloadPage();});
+  document.addEventListener('DOMContentLoaded', function(){makeMenu();translateHome();translateDownloadPage();ftAds();});
 })();
