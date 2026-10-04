@@ -18,3 +18,9 @@
 /downloads/*.apk
   Content-Type: application/vnd.android.package-archive
   Cache-Control: public, max-age=86400
+
+/admin/*
+  Cache-Control: no-store
+
+/api/*
+  Cache-Control: no-store
