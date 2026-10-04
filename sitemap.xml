@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://free-tools-ai.pages.dev/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/</loc></url>
   <url><loc>https://free-tools-ai.pages.dev/tools/pdf-to-word/</loc></url>
   <url><loc>https://free-tools-ai.pages.dev/tools/pdf-to-text/</loc></url>
   <url><loc>https://free-tools-ai.pages.dev/tools/pdf-to-jpg/</loc></url>
@@ -19,4 +20,13 @@
   <url><loc>https://free-tools-ai.pages.dev/ai/rewriter/</loc></url>
   <url><loc>https://free-tools-ai.pages.dev/ai/chat/</loc></url>
   <url><loc>https://free-tools-ai.pages.dev/privacy/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/png-to-jpg/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/jpg-to-png/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/jpg-to-webp/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/png-to-webp/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/webp-to-jpg/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/webp-to-png/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/image-cropper/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/image-metadata-remover/</loc></url>
+  <url><loc>https://free-tools-ai.pages.dev/tools/merge-pdf/</loc></url>
 </urlset>
