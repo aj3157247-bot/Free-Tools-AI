@@ -1,1 +1,54 @@
-
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JPG to PNG | FreeTools AI</title>
+<meta name="description" content="Convert JPG and JPEG images to PNG online for free in your browser.">
+<link rel="canonical" href="https://free-tools-ai.pages.dev/tools/jpg-to-png/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JPG to PNG | FreeTools AI">
+<meta property="og:description" content="Convert JPG and JPEG images to PNG online for free in your browser.">
+<meta property="og:url" content="https://free-tools-ai.pages.dev/tools/jpg-to-png/">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="/assets/app.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"JPG to PNG - FreeTools AI","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://free-tools-ai.pages.dev/tools/jpg-to-png/","description":"Convert JPG and JPEG images to PNG online for free in your browser.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+</head>
+<body>
+<header class="nav"><a class="logo" href="/">FreeTools<span>AI</span></a><nav><a href="/tools/">Tools</a><a href="/#ai">AI</a></nav></header>
+<main class="toolMain">
+<a class="back" href="/tools/">← All tools</a>
+<div class="toolHead"><div class="toolEyebrow">FREE ONLINE TOOL</div><h1>JPG to PNG</h1><p>Convert JPG and JPEG images to PNG online for free in your browser.</p></div>
+<div class="workspace"><input id="file" type="file" accept="image/jpeg,.jpg,.jpeg" hidden>
+<div id="drop" class="drop"><strong>Drop an image</strong>or tap to choose</div>
+<div id="result" class="status"></div></div>
+<section style="max-width:850px;margin:30px auto;line-height:1.7;color:#475467">
+<h2>How to use JPG to PNG</h2><ol><li>Choose your file or image.</li><li>Adjust the available options if needed.</li><li>Start the conversion and download the result.</li></ol>
+<h2>Private and browser-based</h2><p>For these image tools, processing happens in your browser whenever possible. Your file does not need to be uploaded to a server.</p>
+</section>
+</main>
+<footer><a class="logo" href="/">FreeTools<span>AI</span></a><span>Free tools for everyone.</span></footer>
+<script src="/assets/tools.js"></script>
+<script>
+const input=qs('#file'),drop=qs('#drop'),result=qs('#result');
+function convertImage(file){
+ const r=new FileReader();
+ r.onload=()=>{
+  const img=new Image();
+  img.onload=()=>{
+   const c=document.createElement('canvas'); c.width=img.naturalWidth; c.height=img.naturalHeight;
+   c.getContext('2d').drawImage(img,0,0);
+   c.toBlob(b=>{ if(!b){result.textContent='Conversion failed.';return;}
+     downloadBlob(b,file.name.replace(/\.[^.]+$/,'')+'.png');
+     result.textContent='Done — your jpg to png is ready.';
+   },'image/png',0.92);
+  };
+  img.onerror=()=>result.textContent='This image format could not be decoded by your browser.';
+  img.src=r.result;
+ };
+ r.readAsDataURL(file);
+}
+setupDrop(convertImage,'image/jpeg,.jpg,.jpeg');
+</script>
+<script src="/assets/site.js"></script>
+</body></html>
