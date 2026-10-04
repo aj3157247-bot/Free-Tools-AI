@@ -19,6 +19,15 @@
     { en: 'Remove Background', fa: 'حذف پس‌زمینه', path: '/tools/remove-background/', e: '✂️' },
     { en: 'QR Code Generator', fa: 'ساخت کد QR', path: '/tools/qr-code-generator/', e: '▣' }
   ];
+    { en: 'PNG to JPG', fa: 'PNG به JPG', path: '/tools/png-to-jpg/', e: '🖼️' },
+    { en: 'JPG to PNG', fa: 'JPG به PNG', path: '/tools/jpg-to-png/', e: '🖼️' },
+    { en: 'JPG to WebP', fa: 'JPG به WebP', path: '/tools/jpg-to-webp/', e: '⚡' },
+    { en: 'PNG to WebP', fa: 'PNG به WebP', path: '/tools/png-to-webp/', e: '⚡' },
+    { en: 'WebP to JPG', fa: 'WebP به JPG', path: '/tools/webp-to-jpg/', e: '🔄' },
+    { en: 'WebP to PNG', fa: 'WebP به PNG', path: '/tools/webp-to-png/', e: '🔄' },
+    { en: 'Image Cropper', fa: 'برش تصویر', path: '/tools/image-cropper/', e: '✂️' },
+    { en: 'Image Metadata Remover', fa: 'حذف متادیتای تصویر', path: '/tools/image-metadata-remover/', e: '🧹' },
+    { en: 'Merge PDF', fa: 'ادغام PDF', path: '/tools/merge-pdf/', e: '📚' },
   var AIT = [
     { en: 'AI Summarizer', fa: 'خلاصه‌ساز هوشمند', path: '/ai/summarizer/', e: '🧠' },
     { en: 'AI Translator', fa: 'مترجم هوشمند', path: '/ai/translator/', e: '🌍' },
