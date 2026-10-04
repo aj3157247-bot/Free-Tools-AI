@@ -3,148 +3,137 @@ function json(data, status = 200) {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store"
+      "cache-control": "no-store",
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET,POST,OPTIONS",
+      "access-control-allow-headers": "content-type"
     }
   });
 }
 
+const MODEL = "@cf/zai-org/glm-4.7-flash";
 const buckets = new Map();
-const WINDOW = 60_000;
-const MAX = 20;
 
 function allowed(request) {
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
   const now = Date.now();
-  const key = request.headers.get("CF-Connecting-IP") || "unknown";
-  const bucket = buckets.get(key);
+  const windowMs = 60_000;
+  const max = 20;
+  const current = buckets.get(ip);
 
-  if (!bucket || now - bucket.start >= WINDOW) {
-    buckets.set(key, { start: now, count: 1 });
+  if (!current || now - current.startedAt >= windowMs) {
+    buckets.set(ip, { startedAt: now, count: 1 });
     return true;
   }
 
-  bucket.count += 1;
-  return bucket.count <= MAX;
+  if (current.count >= max) return false;
+  current.count += 1;
+  return true;
 }
 
-async function readProviderResponse(response) {
-  const raw = await response.text();
+function extractText(result) {
+  if (typeof result === "string") return result;
+  if (typeof result?.response === "string") return result.response;
+  if (typeof result?.text === "string") return result.text;
 
-  if (!raw) {
-    return {
-      ok: false,
-      status: response.status,
-      error: "The AI provider returned an empty response."
-    };
+  const content = result?.choices?.[0]?.message?.content;
+  if (typeof content === "string") return content;
+  if (Array.isArray(content)) {
+    return content
+      .map((item) => typeof item === "string" ? item : item?.text || "")
+      .join("")
+      .trim();
   }
 
-  try {
-    return {
+  return "";
+}
+
+export async function onRequest(context) {
+  const { request, env } = context;
+
+  if (request.method === "OPTIONS") {
+    return json({ ok: true });
+  }
+
+  if (request.method === "GET") {
+    return json({
       ok: true,
-      status: response.status,
-      data: JSON.parse(raw)
-    };
-  } catch {
-    return {
-      ok: false,
-      status: response.status,
-      error: `The AI provider returned a non-JSON response (${response.status}).`
-    };
+      service: "FreeTools AI API",
+      provider: "Cloudflare Workers AI",
+      model: MODEL
+    });
   }
-}
 
-export async function onRequestPost({ request, env }) {
+  if (request.method !== "POST") {
+    return json({ error: "Method not allowed." }, 405);
+  }
+
   if (!allowed(request)) {
-    return json({ error: "Too many requests. Try again in a minute." }, 429);
+    return json({ error: "Too many requests. Please wait a moment." }, 429);
   }
 
-  if (!env.OPENAI_API_KEY) {
-    return json({ error: "OPENAI_API_KEY is not configured." }, 500);
+  if (!env.AI || typeof env.AI.run !== "function") {
+    return json({
+      error:
+        'Cloudflare Workers AI is not connected yet. In Cloudflare Pages go to Settings → Functions → Bindings → Add → Workers AI, set Variable name to "AI", save, then redeploy.'
+    }, 503);
   }
 
   let body;
   try {
     body = await request.json();
   } catch {
-    return json({ error: "Invalid JSON body." }, 400);
+    return json({ error: "Invalid JSON request." }, 400);
   }
 
-  const prompt = body?.prompt;
-  const system = body?.system;
+  const prompt = String(body?.prompt || "").trim();
+  const system = String(body?.system || "").trim();
 
-  if (typeof prompt !== "string" || !prompt.trim()) {
-    return json({ error: "Prompt is missing." }, 400);
+  if (!prompt) {
+    return json({ error: "Please enter a prompt." }, 400);
   }
 
-  if (prompt.length > 30_000) {
-    return json({ error: "Prompt is too long." }, 400);
+  if (prompt.length > 12000) {
+    return json({ error: "Prompt is too long." }, 413);
   }
 
   try {
-    const payload = {
-      model: "gpt-6-luna",
-      input: prompt
-    };
+    const messages = [];
 
-    if (typeof system === "string" && system.trim()) {
-      payload.instructions = system.slice(0, 4_000);
+    if (system) {
+      messages.push({
+        role: "system",
+        content: system.slice(0, 4000)
+      });
     }
 
-    const response = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "authorization": `Bearer ${env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify(payload)
+    messages.push({
+      role: "user",
+      content: prompt
     });
 
-    const provider = await readProviderResponse(response);
+    const result = await env.AI.run(MODEL, {
+      messages,
+      max_tokens: 1200,
+      temperature: 0.7
+    });
 
-    if (!provider.ok) {
-      return json({ error: provider.error }, 502);
-    }
+    const text = extractText(result);
 
-    const data = provider.data;
-
-    if (!response.ok) {
+    if (!text) {
       return json({
-        error: data?.error?.message || "AI provider error."
-      }, response.status);
+        error: "The AI model returned an empty response. Please try again."
+      }, 502);
     }
 
-    let text = typeof data?.output_text === "string" ? data.output_text : "";
-
-    if (!text && Array.isArray(data?.output)) {
-      text = data.output
-        .flatMap(item => Array.isArray(item?.content) ? item.content : [])
-        .filter(item => item?.type === "output_text" && typeof item?.text === "string")
-        .map(item => item.text)
-        .join("\n");
-    }
-
-    if (!text.trim()) {
-      return json({ error: "The AI provider returned no text." }, 502);
-    }
-
-    return json({ text });
+    return json({
+      ok: true,
+      text,
+      model: MODEL
+    });
   } catch (error) {
     return json({
-      error: error?.message || "AI request failed."
-    }, 500);
+      error: error?.message || "Cloudflare Workers AI request failed."
+    }, 502);
   }
-}
-
-export async function onRequestGet() {
-  return json({ ok: true, service: "FreeTools AI API" });
-}
-
-export async function onRequestOptions() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      "access-control-allow-origin": "*",
-      "access-control-allow-methods": "POST,OPTIONS",
-      "access-control-allow-headers": "Content-Type"
-    }
-  });
 }
