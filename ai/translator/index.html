@@ -1,46 +1,15 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Translator | FreeTools AI</title><meta name="description" content="Translate text naturally while preserving meaning and formatting."><link rel="stylesheet" href="/assets/app.css"></head><body><header class="nav"><a class="logo" href="/">FreeTools<span>AI</span></a><nav><a href="/#tools">Tools</a><a href="/#ai">AI</a></nav></header><main class="toolMain"><a class="back" href="/#tools">← All tools</a><div class="toolHead"><div class="toolEyebrow">FREE ONLINE TOOL</div><h1>AI Translator</h1><p>Translate text naturally while preserving meaning and formatting.</p></div><div class="workspace"><div class="aiWork"><textarea id="input" placeholder="Enter your text or request…"></textarea><div class="controls"><button id="go" class="btn primary">Run AI</button></div><div id="output" class="aiOutput">Your result appears here.</div></div></div></main><footer><a class="logo" href="/">FreeTools<span>AI</span></a><span>Free tools for everyone.</span></footer><script src="/assets/tools.js"></script><script src="/assets/ai-client.js"></script><script>
-document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("input");
-  const go = document.getElementById("go");
-  const output = document.getElementById("output");
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Translator | FreeTools AI</title><meta name="description" content="Translate text naturally while preserving meaning and formatting."><link rel="stylesheet" href="/assets/app.css"><link rel="canonical" href="https://free-tools-ai.pages.dev/ai/translator/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FreeTools AI">
+<meta property="og:title" content="AI Translator | FreeTools AI">
+<meta property="og:description" content="Translate text naturally while preserving meaning and formatting.">
+<meta property="og:url" content="https://free-tools-ai.pages.dev/ai/translator/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI Translator | FreeTools AI">
+<meta name="twitter:description" content="Translate text naturally while preserving meaning and formatting.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"AI Translator | FreeTools AI","url":"https://free-tools-ai.pages.dev/ai/translator/","description":"Translate text naturally while preserving meaning and formatting.","applicationCategory":"Artificial Intelligence","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"FreeTools AI","item":"https://free-tools-ai.pages.dev/"},{"@type":"ListItem","position":2,"name":"AI","item":"https://free-tools-ai.pages.dev/ai/"},{"@type":"ListItem","position":3,"name":"AI Translator | FreeTools AI","item":"https://free-tools-ai.pages.dev/ai/translator/"}]}</script></head><body><header class="nav"><a class="logo" href="/">FreeTools<span>AI</span></a><nav><a href="/#tools">Tools</a><a href="/#ai">AI</a></nav></header><main class="toolMain"><a class="back" href="/#tools">← All tools</a><div class="toolHead"><div class="toolEyebrow">FREE ONLINE TOOL</div><h1>AI Translator</h1><p>Translate text naturally while preserving meaning and formatting.</p></div><div class="workspace"><div class="aiWork"><textarea id="input" placeholder="Enter your text or request…"></textarea><div class="controls"><button id="go" class="btn primary">Run AI</button></div><div id="output" class="aiOutput">Your result appears here.</div></div></div><section class="section relatedTools"><div class="sectionTitle"><div><small>RELATED TOOLS</small><h2>More useful tools</h2></div></div><div class="cards"><a class="card" href="/ai/summarizer/"><b>AI Summarizer</b><p>Free online AI Summarizer tool.</p></a><a class="card" href="/ai/rewriter/"><b>AI Rewriter</b><p>Free online AI Rewriter tool.</p></a><a class="card" href="/ai/chat/"><b>AI Chat</b><p>Free online AI Chat tool.</p></a></div></section></main><footer><a class="logo" href="/">FreeTools<span>AI</span></a><span>Free tools for everyone.</span></footer><script src="/assets/tools.js"></script><script src="/assets/ai-client.js"></script><script>go.onclick=async()=>{const v=input.value.trim();if(!v){output.textContent='Enter text first.';return;}output.textContent='Thinking…';try{output.textContent=await FreeToolsAI.request("Translate the user text. Follow any target-language instruction. Preserve names, numbers and formatting."+"
 
-  if (!input || !go || !output || !window.FreeToolsAI) {
-    return;
-  }
-
-  const system = "Translate the user's text naturally. Follow any target-language instruction. Preserve names, numbers and formatting.";
-
-  const run = async () => {
-    const value = input.value.trim();
-
-    if (!value) {
-      output.textContent = "Enter text first.";
-      input.focus();
-      return;
-    }
-
-    go.disabled = true;
-    output.textContent = "Thinking…";
-
-    try {
-      output.textContent = await window.FreeToolsAI.request(
-        value,
-        system
-      );
-    } catch (error) {
-      output.textContent = error?.message || "AI request failed.";
-    } finally {
-      go.disabled = false;
-    }
-  };
-
-  go.addEventListener("click", run);
-
-  input.addEventListener("keydown", (event) => {
-    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-      event.preventDefault();
-      run();
-    }
-  });
-});
-</script><script src="/assets/site.js"></script></body></html>
+USER TEXT:
+"+v);}catch(e){output.textContent=e.message||"AI request failed."}}</script><script src="/assets/site.js"></script></body></html>
