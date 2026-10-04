@@ -26,29 +26,17 @@ function allowed(request) {
   return bucket.count <= MAX;
 }
 
-async function readProviderResponse(response) {
+async function parseJsonResponse(response) {
   const raw = await response.text();
 
   if (!raw) {
-    return {
-      ok: false,
-      status: response.status,
-      error: "The AI provider returned an empty response."
-    };
+    return { data: null, raw: "" };
   }
 
   try {
-    return {
-      ok: true,
-      status: response.status,
-      data: JSON.parse(raw)
-    };
+    return { data: JSON.parse(raw), raw };
   } catch {
-    return {
-      ok: false,
-      status: response.status,
-      error: `The AI provider returned a non-JSON response (${response.status}).`
-    };
+    return { data: null, raw };
   }
 }
 
@@ -79,16 +67,16 @@ export async function onRequestPost({ request, env }) {
     return json({ error: "Prompt is too long." }, 400);
   }
 
+  const payload = {
+    model: env.AI_MODEL || "gpt-6-luna",
+    input: prompt
+  };
+
+  if (typeof system === "string" && system.trim()) {
+    payload.instructions = system.slice(0, 4_000);
+  }
+
   try {
-    const payload = {
-      model: env.AI_MODEL || "gpt-5.6-mini",
-      input: prompt
-    };
-
-    if (typeof system === "string" && system.trim()) {
-      payload.instructions = system.slice(0, 4_000);
-    }
-
     const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: {
@@ -98,18 +86,16 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify(payload)
     });
 
-    const provider = await readProviderResponse(response);
-
-    if (!provider.ok) {
-      return json({ error: provider.error }, 502);
-    }
-
-    const data = provider.data;
+    const { data, raw } = await parseJsonResponse(response);
 
     if (!response.ok) {
-      return json({
-        error: data?.error?.message || "AI provider error."
-      }, response.status);
+      const providerMessage =
+        data?.error?.message ||
+        data?.error?.code ||
+        (raw ? raw.slice(0, 500) : "") ||
+        `OpenAI request failed (${response.status}).`;
+
+      return json({ error: providerMessage }, response.status);
     }
 
     let text = typeof data?.output_text === "string" ? data.output_text : "";
@@ -117,7 +103,11 @@ export async function onRequestPost({ request, env }) {
     if (!text && Array.isArray(data?.output)) {
       text = data.output
         .flatMap(item => Array.isArray(item?.content) ? item.content : [])
-        .filter(item => item?.type === "output_text" && typeof item?.text === "string")
+        .filter(
+          item =>
+            item?.type === "output_text" &&
+            typeof item?.text === "string"
+        )
         .map(item => item.text)
         .join("\n");
     }
@@ -126,19 +116,24 @@ export async function onRequestPost({ request, env }) {
       return json({ error: "The AI provider returned no text." }, 502);
     }
 
-    return json({ text });
+    return json({ text: text.trim() });
   } catch (error) {
-    return json({
-      error: error?.message || "AI request failed."
-    }, 500);
+    return json(
+      { error: error?.message || "AI request failed." },
+      500
+    );
   }
 }
 
-export async function onRequestGet() {
-  return json({ ok: true, service: "FreeTools AI API" });
+export function onRequestGet() {
+  return json({
+    ok: true,
+    service: "FreeTools AI API",
+    method: "POST /api/ai"
+  });
 }
 
-export async function onRequestOptions() {
+export function onRequestOptions() {
   return new Response(null, {
     status: 204,
     headers: {
