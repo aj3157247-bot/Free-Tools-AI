@@ -22,13 +22,14 @@ export async function onRequest(context){
   const device=/Mobile|Android|iPhone|iPad/i.test(ua) ? (/iPad|Tablet/i.test(ua)?"tablet":"mobile") : "desktop";
   const country=esc(request.headers.get("CF-IPCountry")||"Unknown").slice(0,20);
   const now=Math.floor(Date.now()/1000);
+  const isTrackablePage = path === "/" || (!path.startsWith("/api/") && path !== "/manifest.json" && path !== "/favicon.ico" && path !== "/robots.txt" && path !== "/sitemap.xml" && !/\.[a-z0-9]{1,12}$/i.test(path));
 
   try{
     await env.DB.prepare(`INSERT INTO sessions (sid,first_seen,last_seen,country,device) VALUES (?,?,?,?,?)
       ON CONFLICT(sid) DO UPDATE SET last_seen=excluded.last_seen,country=excluded.country,device=excluded.device`)
       .bind(sid,now,now,country,device).run();
 
-    if(!b.heartbeat){
+    if(!b.heartbeat && isTrackablePage){
       await env.DB.prepare(`INSERT INTO pageviews (sid,path,title,referrer,lang,country,device,created_at) VALUES (?,?,?,?,?,?,?,?)`)
         .bind(sid,path,esc(b.title),esc(b.referrer).slice(0,1000),esc(b.lang).slice(0,10),country,device,now).run();
     }

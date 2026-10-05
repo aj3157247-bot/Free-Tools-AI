@@ -13,7 +13,7 @@ export async function onRequest(context){
    q("SELECT COUNT(*) views, COUNT(DISTINCT sid) users FROM pageviews WHERE created_at>=?",now-7*day),
    q("SELECT COUNT(*) views, COUNT(DISTINCT sid) users FROM pageviews WHERE created_at>=?",now-30*day),
    q("SELECT COUNT(*) count FROM sessions WHERE last_seen>=?",now-120),
-   q("SELECT path,COUNT(*) count FROM pageviews GROUP BY path ORDER BY count DESC LIMIT 10"),
+   q("SELECT path,COUNT(*) count FROM pageviews WHERE path NOT GLOB '*.*' AND path NOT LIKE '/api/%' GROUP BY path ORDER BY count DESC LIMIT 10"),
    q("SELECT target,COUNT(*) count FROM events WHERE event='click' GROUP BY target ORDER BY count DESC LIMIT 10"),
    q("SELECT country,COUNT(DISTINCT sid) count FROM pageviews GROUP BY country ORDER BY count DESC LIMIT 10"),
    q("SELECT device,COUNT(DISTINCT sid) count FROM pageviews GROUP BY device ORDER BY count DESC"),
