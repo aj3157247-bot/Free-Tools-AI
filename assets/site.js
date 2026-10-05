@@ -25,7 +25,7 @@
     header.className = 'nav v6-nav';
     header.innerHTML = '<div class="navInner"><a class="logo" href="/" aria-label="FreeTools AI">FreeTools<span>AI</span></a>' +
       '<nav class="desktopNav" aria-label="Main navigation">' +
-      '<a href="/">'+t('Home','خانه')+'</a>' +
+      '<a href="/" onclick="window.location.href=\'/\';return false;" ontouchend="window.location.href=\'/\';return false;">'+t('Home','خانه')+'</a>' +
       '<button class="navDrop" type="button" data-panel="toolsPanel">'+t('Tools','ابزارها')+' <span>⌄</span></button>' +
       '<button class="navDrop" type="button" data-panel="aiPanel">'+t('AI','هوش مصنوعی')+' <span>⌄</span></button>' +
       '<a href="/guides/">'+t('Guides','راهنماها')+'</a>' +
@@ -33,9 +33,9 @@
       '<a href="/about/">'+t('About','درباره ما')+'</a>' +
       '</nav>' +
       '<div class="navActions"><button class="langBtn" id="langBtn" type="button">'+(lang === 'fa' ? 'English' : 'فارسی')+'</button><button class="menuBtn" id="menuBtn" type="button" aria-label="Menu">☰</button></div></div>' +
-      '<div class="mega" id="toolsPanel"><div class="megaInner"><div class="megaHead"><div><small>'+t('TOOLS','ابزارها')+'</small><h3>'+t('All the tools in one place','همه ابزارها در یکجا')+'</h3></div><a href="/tools/">'+t('View all tools →','مشاهده همه ابزارها ←')+'</a></div><div class="megaGrid">'+tools.map(function(x){return '<a href="'+x[2]+'"><span>'+x[3]+'</span><b>'+t(x[0],x[1])+'</b></a>';}).join('')+'</div></div></div>' +
+      '<div class="mega" id="toolsPanel"><div class="megaInner"><div class="megaHead"><div><small>'+t('TOOLS','ابزارها')+'</small><h3>'+t('All the tools in one place','همه ابزارها در یکجا')+'</h3></div><a href="/tools/" onclick="window.location.href=\'/tools/\';return false;" ontouchend="window.location.href=\'/tools/\';return false;">'+t('View all tools →','مشاهده همه ابزارها ←')+'</a></div><div class="megaGrid">'+tools.map(function(x){return '<a href="'+x[2]+'"><span>'+x[3]+'</span><b>'+t(x[0],x[1])+'</b></a>';}).join('')+'</div></div></div>' +
       '<div class="mega" id="aiPanel"><div class="megaInner"><div class="megaHead"><div><small>AI</small><h3>'+t('Practical AI tools','ابزارهای کاربردی هوش مصنوعی')+'</h3></div></div><div class="megaGrid aiMega">'+ai.map(function(x){return '<a href="'+x[2]+'"><span>'+x[3]+'</span><b>'+t(x[0],x[1])+'</b></a>';}).join('')+'</div></div></div>' +
-      '<div class="mobilePanel" id="mobilePanel"><a href="/">🏠 '+t('Home','خانه')+'</a><a class="mobileAppLink" href="/download/">📱 '+t('Download App','دانلود اپلیکیشن')+'</a><button data-mobile="tools">🧰 '+t('Tools','ابزارها')+' <span>+</span></button><div class="mobileSub" id="mobileTools">'+tools.map(function(x){return '<a href="'+x[2]+'">'+x[3]+' '+t(x[0],x[1])+'</a>';}).join('')+'</div><button data-mobile="ai">🤖 '+t('AI Tools','ابزارهای هوش مصنوعی')+' <span>+</span></button><div class="mobileSub" id="mobileAi">'+ai.map(function(x){return '<a href="'+x[2]+'">'+x[3]+' '+t(x[0],x[1])+'</a>';}).join('')+'</div><a href="/guides/">📚 '+t('Guides','راهنماها')+'</a><a href="/about/">ℹ️ '+t('About','درباره ما')+'</a><a href="/privacy/">🔒 '+t('Privacy','حریم خصوصی')+'</a><a href="/terms/">📜 '+t('Terms','قوانین')+'</a></div>';
+      '<div class="mobilePanel" id="mobilePanel"><a href="/" onclick="window.location.href=\'/\';return false;" ontouchend="window.location.href=\'/\';return false;">🏠 '+t('Home','خانه')+'</a><a class="mobileAppLink" href="/download/">📱 '+t('Download App','دانلود اپلیکیشن')+'</a><button data-mobile="tools">🧰 '+t('Tools','ابزارها')+' <span>+</span></button><div class="mobileSub" id="mobileTools">'+tools.map(function(x){return '<a href="'+x[2]+'">'+x[3]+' '+t(x[0],x[1])+'</a>';}).join('')+'</div><button data-mobile="ai">🤖 '+t('AI Tools','ابزارهای هوش مصنوعی')+' <span>+</span></button><div class="mobileSub" id="mobileAi">'+ai.map(function(x){return '<a href="'+x[2]+'">'+x[3]+' '+t(x[0],x[1])+'</a>';}).join('')+'</div><a href="/guides/">📚 '+t('Guides','راهنماها')+'</a><a href="/about/">ℹ️ '+t('About','درباره ما')+'</a><a href="/privacy/">🔒 '+t('Privacy','حریم خصوصی')+'</a><a href="/terms/">📜 '+t('Terms','قوانین')+'</a></div>';
     document.body.prepend(header);
 
     header.querySelectorAll('.navDrop').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation(); var id=btn.getAttribute('data-panel'); document.querySelectorAll('.mega').forEach(function(p){p.classList.toggle('open',p.id===id && !p.classList.contains('open'));});});});
@@ -46,20 +46,24 @@
   }
 
   function hardNavigate(url){
-    try { window.location.assign(new URL(url, window.location.origin).href); }
-    catch (_) { window.location.href = url; }
+    try { window.location.href = url; }
+    catch (_) { window.location.assign(url); }
   }
   function installReliableNavigation(){
-    document.addEventListener('click', function(e){
-      var a=e.target.closest && e.target.closest('a');
+    if (window.__ftReliableNavInstalled) return;
+    window.__ftReliableNavInstalled = true;
+    function go(e){
+      var a=e.target && e.target.closest ? e.target.closest('a') : null;
       if(!a || a.target==='_blank' || a.hasAttribute('download')) return;
       var href=a.getAttribute('href')||'';
-      if(href==='/' || href==='/#tools' || href==='/#ai' || href==='/tools/' || a.hasAttribute('data-ft-home')){
+      if(href==='/' || href==='/tools/' || href==='/#tools' || href==='/#ai' || a.hasAttribute('data-ft-home') || a.hasAttribute('data-ft-tools-home')){
         e.preventDefault();
-        e.stopImmediatePropagation();
+        e.stopPropagation();
         hardNavigate(href==='/#tools'?'/tools/':href);
       }
-    }, true);
+    }
+    document.addEventListener('click',go,true);
+    document.addEventListener('touchend',go,true);
   }
 
   function applyDirection(){ document.documentElement.lang=lang; document.documentElement.dir=lang==='fa'?'rtl':'ltr'; document.body.classList.toggle('rtl',lang==='fa'); }
@@ -199,5 +203,5 @@
     }).catch(function(){});
   }
   applyDirection();
-  document.addEventListener('DOMContentLoaded', function(){makeMenu();translateHome();translateDownloadPage();ftAds();ftAnalytics();});
+  document.addEventListener('DOMContentLoaded', function(){makeMenu();installReliableNavigation();translateHome();translateDownloadPage();ftAds();ftAnalytics();});
 })();
