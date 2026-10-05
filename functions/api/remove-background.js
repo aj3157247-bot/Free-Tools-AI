@@ -9,7 +9,9 @@ export async function onRequestPost({request,env}){
  const incoming=await request.formData(),file=incoming.get("image_file")||incoming.get("file");
  if(!(file instanceof File))return json({error:"No image file was uploaded."},400);
  if(file.size>12*1024*1024)return json({error:"Image is too large. Maximum 12 MB."},413);
- const form=new FormData();form.append("image_file",file,file.name||"image");form.append("size","auto");form.append("format","png");
+ const bytes=await file.arrayBuffer();
+ const safeFile=new Blob([bytes],{type:file.type||"application/octet-stream"});
+ const form=new FormData();form.append("image_file",safeFile,file.name||"image");form.append("size","auto");form.append("format","png");
  const r=await fetch("https://api.remove.bg/v1.0/removebg",{method:"POST",headers:{"X-Api-Key":env.REMOVE_BG_API_KEY},body:form});
  if(!r.ok){const raw=await r.text();return json({error:"Remove.bg request failed.",detail:raw.slice(0,2000)},r.status)}
  const h=new Headers({"content-type":"image/png","cache-control":"no-store","content-disposition":'inline; filename="background-removed.png"'});
