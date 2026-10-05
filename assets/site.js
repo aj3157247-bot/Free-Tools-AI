@@ -35,13 +35,16 @@
       '<div class="navActions"><button class="langBtn" id="langBtn" type="button">'+(lang === 'fa' ? 'English' : 'فارسی')+'</button><button class="menuBtn" id="menuBtn" type="button" aria-label="Menu">☰</button></div></div>' +
       '<div class="mega" id="toolsPanel"><div class="megaInner"><div class="megaHead"><div><small>'+t('TOOLS','ابزارها')+'</small><h3>'+t('All the tools in one place','همه ابزارها در یکجا')+'</h3></div><a href="/tools/">'+t('View all tools →','مشاهده همه ابزارها ←')+'</a></div><div class="megaGrid">'+tools.map(function(x){return '<a href="'+x[2]+'"><span>'+x[3]+'</span><b>'+t(x[0],x[1])+'</b></a>';}).join('')+'</div></div></div>' +
       '<div class="mega" id="aiPanel"><div class="megaInner"><div class="megaHead"><div><small>AI</small><h3>'+t('Practical AI tools','ابزارهای کاربردی هوش مصنوعی')+'</h3></div></div><div class="megaGrid aiMega">'+ai.map(function(x){return '<a href="'+x[2]+'"><span>'+x[3]+'</span><b>'+t(x[0],x[1])+'</b></a>';}).join('')+'</div></div></div>' +
-      '<div class="mobilePanel" id="mobilePanel"><a href="/">🏠 '+t('Home','خانه')+'</a><a class="mobileAppLink" href="/download/">📱 '+t('Download App','دانلود اپلیکیشن')+'</a><button data-mobile="tools">🧰 '+t('Tools','ابزارها')+' <span>+</span></button><div class="mobileSub" id="mobileTools">'+tools.map(function(x){return '<a href="'+x[2]+'">'+x[3]+' '+t(x[0],x[1])+'</a>';}).join('')+'</div><button data-mobile="ai">🤖 '+t('AI Tools','ابزارهای هوش مصنوعی')+' <span>+</span></button><div class="mobileSub" id="mobileAi">'+ai.map(function(x){return '<a href="'+x[2]+'">'+x[3]+' '+t(x[0],x[1])+'</a>';}).join('')+'</div><a href="/guides/">📚 '+t('Guides','راهنماها')+'</a><a href="/about/">ℹ️ '+t('About','درباره ما')+'</a><a href="/privacy/">🔒 '+t('Privacy','حریم خصوصی')+'</a><a href="/terms/">📜 '+t('Terms','قوانین')+'</a></div>';
+      '<div class="mobilePanel" id="mobilePanel"><a href="/" data-home-link="1">🏠 '+t('Home','خانه')+'</a><a class="mobileAppLink" href="/download/">📱 '+t('Download App','دانلود اپلیکیشن')+'</a><button data-mobile="tools">🧰 '+t('Tools','ابزارها')+' <span>+</span></button><div class="mobileSub" id="mobileTools">'+tools.map(function(x){return '<a href="'+x[2]+'">'+x[3]+' '+t(x[0],x[1])+'</a>';}).join('')+'</div><button data-mobile="ai">🤖 '+t('AI Tools','ابزارهای هوش مصنوعی')+' <span>+</span></button><div class="mobileSub" id="mobileAi">'+ai.map(function(x){return '<a href="'+x[2]+'">'+x[3]+' '+t(x[0],x[1])+'</a>';}).join('')+'</div><a href="/guides/">📚 '+t('Guides','راهنماها')+'</a><a href="/about/">ℹ️ '+t('About','درباره ما')+'</a><a href="/privacy/">🔒 '+t('Privacy','حریم خصوصی')+'</a><a href="/terms/">📜 '+t('Terms','قوانین')+'</a></div>';
     document.body.prepend(header);
+    header.querySelectorAll('[data-home-link]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();window.location.href='/';});});
+    header.querySelector('.logo').setAttribute('data-ft-home','1');
+    header.querySelectorAll('a[href="/"], a[href^="/#"]').forEach(function(a){a.setAttribute('data-ft-home','1');});
 
     header.querySelectorAll('.navDrop').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation(); var id=btn.getAttribute('data-panel'); document.querySelectorAll('.mega').forEach(function(p){p.classList.toggle('open',p.id===id && !p.classList.contains('open'));});});});
     document.addEventListener('click', function(e){ if(!e.target.closest('.v6-nav')) document.querySelectorAll('.mega').forEach(function(p){p.classList.remove('open');}); }, {once:true});
     document.getElementById('langBtn').addEventListener('click', function(){try{localStorage.setItem(KEY,lang==='fa'?'en':'fa');}catch(_){} location.reload();});
-    document.getElementById('menuBtn').addEventListener('click', function(){document.getElementById('mobilePanel').classList.toggle('open');});
+    document.getElementById('menuBtn').addEventListener('click', function(e){e.preventDefault();e.stopPropagation();document.getElementById('mobilePanel').classList.toggle('open');});
     header.querySelectorAll('[data-mobile]').forEach(function(btn){btn.addEventListener('click',function(){var id=btn.getAttribute('data-mobile')==='tools'?'mobileTools':'mobileAi';var el=document.getElementById(id);el.classList.toggle('open');btn.querySelector('span').textContent=el.classList.contains('open')?'−':'+';});});
   }
 
@@ -172,7 +175,7 @@
       var special=home?ads.find(function(a){return a.placement==='home'&&(!top||a.id!==top.id)}):tool?ads.find(function(a){return a.placement==='tools'&&(!top||a.id!==top.id)}):null;
       var bottom=ads.find(function(a){return a.placement==='bottom'&&(!top||a.id!==top.id)&&(!special||a.id!==special.id)});
       function mount(ad,where,extra){if(!ad)return;var wrap=document.createElement('div');wrap.className='ftAd'+(extra?' ftAdBottom':'');var label=lang==='fa'?'تبلیغ':'Sponsored';wrap.innerHTML='<a class="ftAdBox" href="'+esc(ad.target_url)+'" target="_blank" rel="sponsored noopener noreferrer"><div class="ftAdCopy"><span class="ftAdLabel">'+label+'</span><h3 class="ftAdTitle">'+esc(ad.title)+'</h3>'+(ad.description?'<p class="ftAdDesc">'+esc(ad.description)+'</p>':'')+'</div>'+(ad.image_url?'<img class="ftAdImg" src="'+esc(ad.image_url)+'" alt="">':'')+'<span class="ftAdGo">'+(lang==='fa'?'مشاهده ←':'View →')+'</span></a></div>';
-        var node=where(); if(node) node.insertAdjacentElement(extra?'afterend':'beforebegin',wrap); else document.body.appendChild(wrap);
+        var node=where(); if(node) node.insertAdjacentElement('afterend',wrap); else document.body.appendChild(wrap);
         try{var seen=sessionStorage.getItem('ft_ad_seen_'+ad.id);if(!seen){sessionStorage.setItem('ft_ad_seen_'+ad.id,'1');fetch('/api/ad-event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:ad.id,type:'impression'}),keepalive:true}).catch(function(){})}}catch(_){fetch('/api/ad-event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:ad.id,type:'impression'}),keepalive:true}).catch(function(){})}
         var link=wrap.querySelector('a');link.addEventListener('click',function(){fetch('/api/ad-event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:ad.id,type:'click'}),keepalive:true}).catch(function(){})});
       }
@@ -181,6 +184,18 @@
       if(bottom) mount(bottom,function(){return document.querySelector('footer')||null},true);
     }).catch(function(){});
   }
+  function installHomeNavigation(){
+    document.addEventListener('click', function(e){
+      var a=e.target.closest && e.target.closest('a');
+      if(!a || a.target==='_blank') return;
+      var raw=a.getAttribute('href')||'';
+      if(raw==='/' || raw==='/#tools' || raw==='/#ai' || a.hasAttribute('data-ft-home')){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.location.href='/';
+      }
+    }, true);
+  }
   applyDirection();
-  document.addEventListener('DOMContentLoaded', function(){makeMenu();translateHome();translateDownloadPage();ftAds();ftAnalytics();});
+  document.addEventListener('DOMContentLoaded', function(){installHomeNavigation();makeMenu();translateHome();translateDownloadPage();ftAds();ftAnalytics();});
 })();
