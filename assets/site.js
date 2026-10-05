@@ -50,13 +50,58 @@
     if(location.pathname!=='/' && location.pathname!=='/index.html') return;
     var map={
       '⚡ FREE • FAST • PRIVACY-FIRST':'⚡ رایگان • سریع • حفظ حریم خصوصی',
-      'Everyday tools.':'ابزارهای روزمره.', 'One simple place.':'همه در یک جای ساده.',
+      'Everyday tools. One beautiful place.':'ابزارهای روزمره؛ همه در یک جای زیبا.',
+      'Everyday tools.':'ابزارهای روزمره.',
+      'One beautiful place.':'همه در یک جای زیبا.',
+      'One simple place.':'همه در یک جای ساده.',
+      'Convert, compress, resize, extract text and use practical AI tools — fast, simple and without creating an account.':'تبدیل، فشرده‌سازی، تغییر اندازه، استخراج متن و استفاده از ابزارهای کاربردی هوش مصنوعی؛ سریع، ساده و بدون نیاز به ساخت حساب.',
       'Convert, compress, resize, extract text and use practical AI tools without creating an account.':'تبدیل، فشرده‌سازی، تغییر اندازه، استخراج متن و استفاده از ابزارهای کاربردی هوش مصنوعی؛ بدون نیاز به ساخت حساب.',
-      'Tools people need':'ابزارهایی که واقعاً نیاز دارید','POPULAR':'محبوب','Useful AI, not hype':'هوش مصنوعی کاربردی، بدون تبلیغات اضافی','AI WORKSPACE':'فضای هوش مصنوعی','FREE GUIDES':'راهنماهای رایگان','How to get better results':'چطور نتیجه بهتری بگیریم','Simple by design':'ساده و کاربردی','Choose a tool':'یک ابزار انتخاب کنید','Process your file':'فایل خود را پردازش کنید','Download':'دانلود','View all →':'مشاهده همه ←',
-      'ANDROID APP':'اپلیکیشن اندروید','FreeTools AI on your phone':'FreeTools AI روی گوشی شما','Get faster access to FreeTools AI with our Android app. Free to download and ready to use.':'با اپلیکیشن اندروید FreeTools AI سریع‌تر به ابزارهای ما دسترسی داشته باشید. دانلود رایگان و آماده استفاده است.','⬇️ Download FreeTools AI':'⬇️ دانلود FreeTools AI','Learn more →':'اطلاعات بیشتر ←','AVAILABLE ON MORE PLATFORMS':'در پلتفرم‌های بیشتر در دسترس است','FreeTools AI everywhere':'FreeTools AI همه‌جا همراه شما','Use FreeTools AI on Android today. iPhone and Windows versions are coming soon.':'امروز از FreeTools AI در اندروید استفاده کنید. نسخه‌های آیفون و ویندوز به‌زودی ارائه می‌شوند.','ANDROID':'اندروید','Android App':'اپلیکیشن اندروید','Download APK':'دانلود APK','Download Android App':'دانلود اپلیکیشن اندروید','IPHONE / iOS':'آیفون / iOS','iPhone App':'اپلیکیشن آیفون','The iPhone version is being prepared for the App Store.':'نسخه آیفون در حال آماده‌سازی برای انتشار در App Store است.','WINDOWS':'ویندوز','Windows App':'اپلیکیشن ویندوز','A dedicated Windows version is planned. Until then, you can use the full web version.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. تا آن زمان می‌توانید از نسخه کامل وب استفاده کنید.','A dedicated Windows version is planned. You can use the web version right now.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. فعلاً می‌توانید از نسخه وب استفاده کنید.','Coming soon':'به‌زودی','Use Web Version':'استفاده از نسخه وب'
+      'Search PDF, JPG, OCR, QR...':'جستجوی PDF، JPG، OCR، QR و...',
+      'POPULAR':'محبوب','Tools people need':'ابزارهایی که واقعاً نیاز دارید','View all →':'مشاهده همه ←',
+      'PDF to Word':'PDF به Word','Turn PDF text into editable DOCX.':'متن PDF را به فایل DOCX قابل ویرایش تبدیل کنید.',
+      'Remove Background':'حذف پس‌زمینه','Create transparent PNG images.':'تصاویر PNG شفاف ایجاد کنید.',
+      'HEIC to JPG':'HEIC به JPG','Convert iPhone photos to JPG.':'عکس‌های آیفون را به JPG تبدیل کنید.',
+      'Compress to 50KB':'فشرده‌سازی تا 50KB','Fit images under a 50KB limit.':'حجم تصاویر را به کمتر از 50KB برسانید.',
+      'Image Compressor':'فشرده‌ساز تصویر','Reduce image file size.':'حجم فایل تصویر را کاهش دهید.',
+      'Image to Text':'تصویر به متن','Extract text with OCR.':'متن را با OCR استخراج کنید.',
+      'JPG to PDF':'JPG به PDF','Make PDFs from images.':'از تصاویر فایل PDF بسازید.',
+      'PDF to JPG':'PDF به JPG','Export PDF pages as images.':'صفحات PDF را به‌صورت تصویر دریافت کنید.',
+      'QR Code Generator':'ساخت کد QR','Create QR codes instantly.':'کد QR را در چند لحظه بسازید.',
+      'Image Resizer':'تغییر اندازه تصویر','Resize to exact dimensions.':'تصویر را به اندازه دقیق موردنظر تغییر دهید.',
+      'Image Converter':'مبدل تصویر','JPG, PNG and WebP.':'تبدیل بین JPG، PNG و WebP.',
+      'PDF Compressor':'فشرده‌ساز PDF','Optimize image-heavy PDFs.':'فایل‌های PDF دارای تصاویر زیاد را بهینه کنید.',
+      'OCR':'تشخیص متن OCR','Read text from images.':'متن را از تصاویر استخراج کنید.',
+      'AI WORKSPACE':'فضای هوش مصنوعی','Useful AI, not hype':'هوش مصنوعی کاربردی، نه تبلیغات توخالی',
+      '🧠 AI Summarizer':'🧠 خلاصه‌ساز هوشمند','Summarize long text.':'متن‌های طولانی را خلاصه کنید.',
+      '🌍 AI Translator':'🌍 مترجم هوشمند','Translate naturally.':'ترجمه‌ای روان و طبیعی دریافت کنید.',
+      '✍️ AI Rewriter':'✍️ بازنویس هوشمند','Rewrite text clearly.':'متن را واضح و حرفه‌ای بازنویسی کنید.',
+      '💬 AI Chat':'💬 گفت‌وگوی هوشمند','Ask and brainstorm.':'سؤال بپرسید و ایده‌پردازی کنید.',
+      'FREE GUIDES':'راهنماهای رایگان','How to get better results':'چطور نتیجه بهتری بگیریم',
+      '📘 PDF to Word guide':'📘 راهنمای PDF به Word','How to convert PDFs to editable documents.':'چطور PDF را به سند قابل ویرایش تبدیل کنیم.',
+      '🖼️ Compress images':'🖼️ فشرده‌سازی تصاویر','Reduce image size while keeping quality.':'حجم تصویر را بدون کاهش محسوس کیفیت کم کنید.',
+      '✂️ Remove an image background':'✂️ حذف پس‌زمینه تصویر','Prepare clean transparent PNG results.':'تصاویر PNG شفاف و تمیز آماده کنید.',
+      '🔎 Image to text guide':'🔎 راهنمای تبدیل تصویر به متن','Tips for better OCR results.':'نکاتی برای گرفتن نتیجه بهتر از OCR.',
+      'ANDROID APP':'اپلیکیشن اندروید','FreeTools AI on your phone':'FreeTools AI روی گوشی شما',
+      'Get faster access to FreeTools AI with our Android app. Free to download and ready to use.':'با اپلیکیشن اندروید FreeTools AI سریع‌تر به ابزارهای ما دسترسی داشته باشید. دانلود رایگان و آماده استفاده است.',
+      '⬇️ Download FreeTools AI':'⬇️ دانلود FreeTools AI','Learn more →':'اطلاعات بیشتر ←',
+      'AVAILABLE ON MORE PLATFORMS':'در پلتفرم‌های بیشتر در دسترس است','FreeTools AI everywhere':'FreeTools AI همه‌جا همراه شما',
+      'Use FreeTools AI on Android today. iPhone and Windows versions are coming soon.':'امروز از FreeTools AI در اندروید استفاده کنید. نسخه‌های آیفون و ویندوز به‌زودی ارائه می‌شوند.',
+      'ANDROID':'اندروید','Android App':'اپلیکیشن اندروید','Download the APK and use FreeTools AI on your Android phone.':'APK را دانلود کنید و از FreeTools AI روی گوشی اندرویدی خود استفاده کنید.','⬇️ Download APK':'⬇️ دانلود APK',
+      'IPHONE / iOS':'آیفون / iOS','iPhone App':'اپلیکیشن آیفون','The iPhone version is being prepared for the App Store.':'نسخه آیفون در حال آماده‌سازی برای انتشار در App Store است.',
+      'WINDOWS':'ویندوز','Windows App':'اپلیکیشن ویندوز','A dedicated Windows version is planned. Until then, you can use the full web version.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. تا آن زمان می‌توانید از نسخه کامل وب استفاده کنید.','A dedicated Windows version is planned. You can use the web version right now.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. فعلاً می‌توانید از نسخه وب استفاده کنید.','🌐 Use Web Version':'🌐 استفاده از نسخه وب',
+      'Coming soon':'به‌زودی','HOW IT WORKS':'نحوه کار','Simple by design':'ساده و کاربردی','Choose a tool':'یک ابزار انتخاب کنید','Find the exact task.':'کار موردنظر خود را پیدا کنید.',
+      'Process your file':'فایل خود را پردازش کنید','Many file tools process your files in the browser.':'بسیاری از ابزارهای فایل، فایل شما را مستقیماً در مرورگر پردازش می‌کنند.',
+      'Download':'دانلود','Get your result immediately.':'نتیجه را بلافاصله دریافت کنید.',
+      'Free online utilities for everyone.':'ابزارهای آنلاین رایگان برای همه.','All tools':'همه ابزارها','Guides':'راهنماها','Privacy':'حریم خصوصی','About':'درباره ما','Terms':'قوانین'
     };
-    document.querySelectorAll('h1,h2,h3,p,small,b,a,span,button').forEach(function(el){if(el.children.length) return; var s=el.textContent.trim(); if(map[s]) el.textContent=map[s];});
-    var search=document.getElementById('toolSearch'); if(search) search.placeholder=lang==='fa'?'جستجوی PDF، JPG، OCR، QR و...':'Search PDF, JPG, OCR, QR...';
+    document.querySelectorAll('h1,h2,h3,p,small,b,a,span,button').forEach(function(el){
+      if(el.children.length) return;
+      var s=el.textContent.trim();
+      if(map[s]) el.textContent=map[s];
+    });
+    var search=document.getElementById('toolSearch');
+    if(search) search.placeholder=lang==='fa'?'جستجوی PDF، JPG، OCR، QR و...':'Search PDF, JPG, OCR, QR...';
+    document.title=lang==='fa'?'FreeTools AI — ابزارهای آنلاین رایگان':'FreeTools AI — Free Online Tools';
   }
 
   function translateDownloadPage(){
