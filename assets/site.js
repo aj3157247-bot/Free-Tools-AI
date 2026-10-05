@@ -48,60 +48,70 @@
   function applyDirection(){ document.documentElement.lang=lang; document.documentElement.dir=lang==='fa'?'rtl':'ltr'; document.body.classList.toggle('rtl',lang==='fa'); }
   function translateHome(){
     if(location.pathname!=='/' && location.pathname!=='/index.html') return;
-    var map={
+    var pairs={
       '⚡ FREE • FAST • PRIVACY-FIRST':'⚡ رایگان • سریع • حفظ حریم خصوصی',
-      'Everyday tools. One beautiful place.':'ابزارهای روزمره؛ همه در یک جای زیبا.',
       'Everyday tools.':'ابزارهای روزمره.',
-      'One beautiful place.':'همه در یک جای زیبا.',
+      'One beautiful place.':'همه ابزارها در یک جای زیبا.',
       'One simple place.':'همه در یک جای ساده.',
       'Convert, compress, resize, extract text and use practical AI tools — fast, simple and without creating an account.':'تبدیل، فشرده‌سازی، تغییر اندازه، استخراج متن و استفاده از ابزارهای کاربردی هوش مصنوعی؛ سریع، ساده و بدون نیاز به ساخت حساب.',
       'Convert, compress, resize, extract text and use practical AI tools without creating an account.':'تبدیل، فشرده‌سازی، تغییر اندازه، استخراج متن و استفاده از ابزارهای کاربردی هوش مصنوعی؛ بدون نیاز به ساخت حساب.',
-      'Search PDF, JPG, OCR, QR...':'جستجوی PDF، JPG، OCR، QR و...',
-      'POPULAR':'محبوب','Tools people need':'ابزارهایی که واقعاً نیاز دارید','View all →':'مشاهده همه ←',
-      'PDF to Word':'PDF به Word','Turn PDF text into editable DOCX.':'متن PDF را به فایل DOCX قابل ویرایش تبدیل کنید.',
-      'Remove Background':'حذف پس‌زمینه','Create transparent PNG images.':'تصاویر PNG شفاف ایجاد کنید.',
-      'HEIC to JPG':'HEIC به JPG','Convert iPhone photos to JPG.':'عکس‌های آیفون را به JPG تبدیل کنید.',
-      'Compress to 50KB':'فشرده‌سازی تا 50KB','Fit images under a 50KB limit.':'حجم تصاویر را به کمتر از 50KB برسانید.',
-      'Image Compressor':'فشرده‌ساز تصویر','Reduce image file size.':'حجم فایل تصویر را کاهش دهید.',
-      'Image to Text':'تصویر به متن','Extract text with OCR.':'متن را با OCR استخراج کنید.',
-      'JPG to PDF':'JPG به PDF','Make PDFs from images.':'از تصاویر فایل PDF بسازید.',
-      'PDF to JPG':'PDF به JPG','Export PDF pages as images.':'صفحات PDF را به‌صورت تصویر دریافت کنید.',
-      'QR Code Generator':'ساخت کد QR','Create QR codes instantly.':'کد QR را در چند لحظه بسازید.',
-      'Image Resizer':'تغییر اندازه تصویر','Resize to exact dimensions.':'تصویر را به اندازه دقیق موردنظر تغییر دهید.',
-      'Image Converter':'مبدل تصویر','JPG, PNG and WebP.':'تبدیل بین JPG، PNG و WebP.',
-      'PDF Compressor':'فشرده‌ساز PDF','Optimize image-heavy PDFs.':'فایل‌های PDF دارای تصاویر زیاد را بهینه کنید.',
-      'OCR':'تشخیص متن OCR','Read text from images.':'متن را از تصاویر استخراج کنید.',
-      'AI WORKSPACE':'فضای هوش مصنوعی','Useful AI, not hype':'هوش مصنوعی کاربردی، نه تبلیغات توخالی',
-      '🧠 AI Summarizer':'🧠 خلاصه‌ساز هوشمند','Summarize long text.':'متن‌های طولانی را خلاصه کنید.',
-      '🌍 AI Translator':'🌍 مترجم هوشمند','Translate naturally.':'ترجمه‌ای روان و طبیعی دریافت کنید.',
-      '✍️ AI Rewriter':'✍️ بازنویس هوشمند','Rewrite text clearly.':'متن را واضح و حرفه‌ای بازنویسی کنید.',
-      '💬 AI Chat':'💬 گفت‌وگوی هوشمند','Ask and brainstorm.':'سؤال بپرسید و ایده‌پردازی کنید.',
+      'Search PDF, JPG, OCR, QR...':'جستجوی PDF، JPG، OCR، QR...',
+      'POPULAR':'محبوب',
+      'Tools people need':'ابزارهایی که واقعاً نیاز دارید',
+      'View all →':'مشاهده همه ←',
+      'PDF to Word':'PDF به Word','Turn PDF text into editable DOCX.':'تبدیل متن PDF به فایل DOCX قابل ویرایش.',
+      'Remove Background':'حذف پس‌زمینه','Create transparent PNG images.':'ساخت تصاویر PNG با پس‌زمینه شفاف.',
+      'HEIC to JPG':'HEIC به JPG','Convert iPhone photos to JPG.':'تبدیل عکس‌های آیفون به JPG.',
+      'Compress to 50KB':'فشرده‌سازی تا 50KB','Fit images under a 50KB limit.':'کاهش حجم تصویر تا کمتر از 50KB.',
+      'Image Compressor':'فشرده‌ساز تصویر','Reduce image file size.':'کاهش حجم فایل تصویر.',
+      'Image to Text':'تصویر به متن','Extract text with OCR.':'استخراج متن با OCR.',
+      'JPG to PDF':'JPG به PDF','Make PDFs from images.':'ساخت PDF از تصاویر.',
+      'PDF to JPG':'PDF به JPG','Export PDF pages as images.':'تبدیل صفحات PDF به تصویر.',
+      'QR Code Generator':'ساخت کد QR','Create QR codes instantly.':'ساخت سریع کدهای QR.',
+      'Image Resizer':'تغییر اندازه تصویر','Resize to exact dimensions.':'تغییر اندازه به ابعاد دقیق.',
+      'Image Converter':'مبدل تصویر','JPG, PNG and WebP.':'JPG، PNG و WebP.',
+      'PDF Compressor':'فشرده‌ساز PDF','Optimize image-heavy PDFs.':'بهینه‌سازی PDFهای حجیم و تصویری.',
+      'OCR':'تشخیص متن OCR','Read text from images.':'خواندن متن از تصاویر.',
+      'AI WORKSPACE':'فضای هوش مصنوعی','Useful AI, not hype':'هوش مصنوعی کاربردی، بدون تبلیغات توخالی',
+      'AI Summarizer':'خلاصه‌ساز هوشمند','Summarize long text.':'خلاصه‌سازی متن‌های طولانی.',
+      'AI Translator':'مترجم هوشمند','Translate naturally.':'ترجمه روان و طبیعی.',
+      'AI Rewriter':'بازنویس هوشمند','Rewrite text clearly.':'بازنویسی واضح و حرفه‌ای متن.',
+      'AI Chat':'گفت‌وگوی هوشمند','Ask and brainstorm.':'پرسش، ایده‌پردازی و گفت‌وگو.',
       'FREE GUIDES':'راهنماهای رایگان','How to get better results':'چطور نتیجه بهتری بگیریم',
-      '📘 PDF to Word guide':'📘 راهنمای PDF به Word','How to convert PDFs to editable documents.':'چطور PDF را به سند قابل ویرایش تبدیل کنیم.',
-      '🖼️ Compress images':'🖼️ فشرده‌سازی تصاویر','Reduce image size while keeping quality.':'حجم تصویر را بدون کاهش محسوس کیفیت کم کنید.',
-      '✂️ Remove an image background':'✂️ حذف پس‌زمینه تصویر','Prepare clean transparent PNG results.':'تصاویر PNG شفاف و تمیز آماده کنید.',
-      '🔎 Image to text guide':'🔎 راهنمای تبدیل تصویر به متن','Tips for better OCR results.':'نکاتی برای گرفتن نتیجه بهتر از OCR.',
+      'PDF to Word guide':'راهنمای PDF به Word','How to convert PDFs to editable documents.':'چگونه PDF را به سند قابل ویرایش تبدیل کنیم.',
+      'Compress images':'فشرده‌سازی تصاویر','Reduce image size while keeping quality.':'کاهش حجم تصویر بدون افت محسوس کیفیت.',
+      'Remove an image background':'حذف پس‌زمینه تصویر','Prepare clean transparent PNG results.':'ساخت خروجی PNG شفاف و تمیز.',
+      'Image to text guide':'راهنمای تصویر به متن','Tips for better OCR results.':'نکاتی برای گرفتن نتیجه بهتر از OCR.',
+      'Free online utilities for everyone.':'ابزارهای آنلاین رایگان برای همه.',
+      'All tools':'همه ابزارها','Guides':'راهنماها','Privacy':'حریم خصوصی','About':'درباره ما','Terms':'قوانین',
       'ANDROID APP':'اپلیکیشن اندروید','FreeTools AI on your phone':'FreeTools AI روی گوشی شما',
       'Get faster access to FreeTools AI with our Android app. Free to download and ready to use.':'با اپلیکیشن اندروید FreeTools AI سریع‌تر به ابزارهای ما دسترسی داشته باشید. دانلود رایگان و آماده استفاده است.',
       '⬇️ Download FreeTools AI':'⬇️ دانلود FreeTools AI','Learn more →':'اطلاعات بیشتر ←',
       'AVAILABLE ON MORE PLATFORMS':'در پلتفرم‌های بیشتر در دسترس است','FreeTools AI everywhere':'FreeTools AI همه‌جا همراه شما',
       'Use FreeTools AI on Android today. iPhone and Windows versions are coming soon.':'امروز از FreeTools AI در اندروید استفاده کنید. نسخه‌های آیفون و ویندوز به‌زودی ارائه می‌شوند.',
-      'ANDROID':'اندروید','Android App':'اپلیکیشن اندروید','Download the APK and use FreeTools AI on your Android phone.':'APK را دانلود کنید و از FreeTools AI روی گوشی اندرویدی خود استفاده کنید.','⬇️ Download APK':'⬇️ دانلود APK',
+      'ANDROID':'اندروید','Android App':'اپلیکیشن اندروید','Download APK':'دانلود APK','Download Android App':'دانلود اپلیکیشن اندروید',
       'IPHONE / iOS':'آیفون / iOS','iPhone App':'اپلیکیشن آیفون','The iPhone version is being prepared for the App Store.':'نسخه آیفون در حال آماده‌سازی برای انتشار در App Store است.',
-      'WINDOWS':'ویندوز','Windows App':'اپلیکیشن ویندوز','A dedicated Windows version is planned. Until then, you can use the full web version.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. تا آن زمان می‌توانید از نسخه کامل وب استفاده کنید.','A dedicated Windows version is planned. You can use the web version right now.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. فعلاً می‌توانید از نسخه وب استفاده کنید.','🌐 Use Web Version':'🌐 استفاده از نسخه وب',
-      'Coming soon':'به‌زودی','HOW IT WORKS':'نحوه کار','Simple by design':'ساده و کاربردی','Choose a tool':'یک ابزار انتخاب کنید','Find the exact task.':'کار موردنظر خود را پیدا کنید.',
-      'Process your file':'فایل خود را پردازش کنید','Many file tools process your files in the browser.':'بسیاری از ابزارهای فایل، فایل شما را مستقیماً در مرورگر پردازش می‌کنند.',
-      'Download':'دانلود','Get your result immediately.':'نتیجه را بلافاصله دریافت کنید.',
-      'Free online utilities for everyone.':'ابزارهای آنلاین رایگان برای همه.','All tools':'همه ابزارها','Guides':'راهنماها','Privacy':'حریم خصوصی','About':'درباره ما','Terms':'قوانین'
+      'WINDOWS':'ویندوز','Windows App':'اپلیکیشن ویندوز','A dedicated Windows version is planned. Until then, you can use the full web version.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. تا آن زمان می‌توانید از نسخه کامل وب استفاده کنید.',
+      'A dedicated Windows version is planned. You can use the web version right now.':'نسخه اختصاصی ویندوز در برنامه توسعه قرار دارد. فعلاً می‌توانید از نسخه وب استفاده کنید.',
+      'Coming soon':'به‌زودی','Use Web Version':'استفاده از نسخه وب'
     };
-    document.querySelectorAll('h1,h2,h3,p,small,b,a,span,button').forEach(function(el){
-      if(el.children.length) return;
+    var reverse={}; Object.keys(pairs).forEach(function(k){reverse[pairs[k]]=k;});
+    var map=lang==='fa'?pairs:reverse;
+    function replaceText(el){
+      if(!el) return;
       var s=el.textContent.trim();
       if(map[s]) el.textContent=map[s];
+    }
+    document.querySelectorAll('.hero .eyebrow,.hero h1,.hero p,.sectionTitle small,.sectionTitle h2,.sectionTitle>a,.aiSection .sectionTitle small,.aiSection .sectionTitle h2,footer p,footer a').forEach(function(el){
+      var s=el.textContent.trim();
+      if(!map[s]) return;
+      if(el.tagName==='H1' && el.querySelector('em')){
+        el.innerHTML=lang==='fa'?'ابزارهای روزمره.<br><em>همه ابزارها در یک جای زیبا.</em>':'Everyday tools.<br><em>One beautiful place.</em>';
+      } else el.textContent=map[s];
     });
-    var search=document.getElementById('toolSearch');
-    if(search) search.placeholder=lang==='fa'?'جستجوی PDF، JPG، OCR، QR و...':'Search PDF, JPG, OCR, QR...';
-    document.title=lang==='fa'?'FreeTools AI — ابزارهای آنلاین رایگان':'FreeTools AI — Free Online Tools';
+    document.querySelectorAll('.quickTools b,.cards .card b,.cards .card p,.aiCard b,.aiCard span').forEach(replaceText);
+    var search=document.getElementById('toolSearch'); if(search) search.placeholder=lang==='fa'?'جستجوی PDF، JPG، OCR، QR...':'Search PDF, JPG, OCR, QR...';
+    document.documentElement.lang=lang; document.documentElement.dir=lang==='fa'?'rtl':'ltr';
   }
 
   function translateDownloadPage(){
