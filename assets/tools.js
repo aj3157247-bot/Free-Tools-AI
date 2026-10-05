@@ -1,1 +1,25 @@
 function qs(s){return document.querySelector(s)}function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.className='download';a.textContent='Download '+name;qs('#result').append(a);setTimeout(()=>URL.revokeObjectURL(a.href),60000)}function setupDrop(cb,accept){const input=qs('#file'),drop=qs('#drop');if(accept)input.accept=accept;const manual=!qs('#go'),labels={'pdf-to-word':'Convert to Word','heic-to-jpg':'Convert to JPG','image-compressor':'Compress','image-converter':'Convert','pdf-compressor':'Compress PDF','pdf-to-jpg':'Convert to JPG','pdf-to-text':'Extract Text','remove-background':'Remove Background'},slug=location.pathname.split('/').filter(Boolean).pop(),label=labels[slug]||'Convert';let picked=null,box,info,btn;function build(){box=document.createElement('div');box.style.cssText='display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:16px';info=document.createElement('span');info.style.cssText='flex:1 1 200px;min-width:0;overflow-wrap:anywhere;font-weight:700;color:#344054';btn=document.createElement('button');btn.type='button';btn.className='btn primary';btn.textContent=label;btn.onclick=async()=>{if(!picked)return;btn.disabled=true;try{await cb(picked)}finally{btn.disabled=false}};box.append(info,btn);(document.querySelector('.controls')||drop).insertAdjacentElement('afterend',box)}function pick(f){if(!manual){cb(f);return}picked=f;const r=qs('#result');if(r)r.textContent='';if(!box)build();info.textContent='Selected:';const nm=document.createElement('bdi');nm.dir='auto';nm.textContent=' '+f.name;const sz=document.createElement('bdi');sz.dir='ltr';sz.textContent=' ('+humanSize(f.size)+')';info.append(nm,sz);btn.disabled=false}drop.onclick=()=>input.click();drop.ondragover=e=>{e.preventDefault();drop.classList.add('drag')};drop.ondragleave=()=>drop.classList.remove('drag');drop.ondrop=e=>{e.preventDefault();drop.classList.remove('drag');if(e.dataTransfer.files[0])pick(e.dataTransfer.files[0])};input.onchange=()=>input.files[0]&&pick(input.files[0])}function loadImage(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{URL.revokeObjectURL(u);res(im)};im.onerror=rej;im.src=u})}function canvasBlob(im,w,h,type='image/jpeg',quality=.88){return new Promise((res,rej)=>{const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);c.toBlob(b=>b?res(b):rej(Error('Conversion failed')),type,quality)})}function humanSize(n){return n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(2)+' MB'}
+
+
+// Robust PDF loader: retries with an older PDF.js parser when a PDF uses
+// malformed/legacy cross-reference structures that the primary parser rejects.
+window.ftLoadPdf = async function(data){
+  const bytes = data instanceof Uint8Array ? data : new Uint8Array(data);
+  const load = async (version) => {
+    const pdfjsLib = await import(`https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.min.mjs`);
+    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
+    }
+    return pdfjsLib.getDocument({data: bytes, stopAtErrors: false}).promise;
+  };
+  try {
+    return await load('5.4.54');
+  } catch (primaryError) {
+    try {
+      return await load('4.10.38');
+    } catch (fallbackError) {
+      const message = String(fallbackError?.message || primaryError?.message || 'Could not read this PDF.');
+      throw new Error(message);
+    }
+  }
+};
