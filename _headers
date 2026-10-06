@@ -24,3 +24,6 @@
 
 /api/*
   Cache-Control: no-store
+
+/sitemap.xml
+  Content-Type: application/xml
