@@ -50,17 +50,42 @@
     document.getElementById('ftIntlLang').addEventListener('click',function(e){e.stopPropagation();menu.classList.toggle('open');});
     document.addEventListener('click',function(e){if(!actions.contains(e.target))menu.classList.remove('open');});
 
-    /* Robustly localize the English/Home link on every localized home page. */
+    /* Localized Home links: expose every language from the Home area too. */
     function fixHomeLabel(){
-      var labels={
-        ar:'الصفحة الرئيسية / English',
-        fa:'خانه / English',
-        es:'Inicio / English',
-        hi:'होम / English',
-        de:'Startseite / English'
-      };
-      var label=labels[c]||'English / Home';
-      document.querySelectorAll('.intlActions a.secondaryBtn, main .secondaryBtn, a.secondaryBtn[href="/"]').forEach(function(el){el.textContent=label;});
+      var labels={ar:'الصفحة الرئيسية',fa:'خانه',es:'Inicio',hi:'होम',de:'Startseite'};
+      var label=labels[c]||'Home';
+      document.querySelectorAll('.intlActions a.secondaryBtn, main .secondaryBtn, a.secondaryBtn[href="/"]').forEach(function(el){
+        if(el.dataset.ftHomeLangs==='1') return;
+        el.dataset.ftHomeLangs='1';
+        el.href='/';
+        el.textContent='🌐 '+label+' / Languages ▾';
+        el.setAttribute('aria-label',label+' - choose language');
+        el.addEventListener('click',function(e){
+          e.preventDefault();
+          var old=document.querySelector('.ftHomeLangMenu');
+          if(old) old.remove();
+          var menu=document.createElement('div');
+          menu.className='ftHomeLangMenu';
+          langs.forEach(function(l){
+            var a=document.createElement('a');
+            a.href=l.p;
+            a.textContent=l.n+(l.c===c?' ✓':'');
+            menu.appendChild(a);
+          });
+          el.parentNode.style.position='relative';
+          el.parentNode.appendChild(menu);
+          setTimeout(function(){
+            document.addEventListener('click',function close(ev){
+              if(!menu.contains(ev.target) && ev.target!==el){menu.remove();document.removeEventListener('click',close);}
+            });
+          },0);
+        });
+      });
+      if(!document.getElementById('ftHomeLangStyle')){
+        var st=document.createElement('style'); st.id='ftHomeLangStyle';
+        st.textContent='.ftHomeLangMenu{position:absolute;z-index:1000;left:50%;transform:translateX(-50%);top:calc(100% + 8px);width:min(330px,calc(100vw - 40px));display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:10px;background:#fff;border:1px solid #e5e7ef;border-radius:16px;box-shadow:0 16px 40px rgba(20,25,60,.14)}.ftHomeLangMenu a{padding:10px 12px;border:1px solid #eceef4;border-radius:10px;background:#fafbff;text-align:center;font-weight:700;color:inherit;text-decoration:none}.ftHomeLangMenu a:hover{background:#f1f2ff}@media(max-width:520px){.ftHomeLangMenu{width:min(300px,calc(100vw - 28px));grid-template-columns:1fr 1fr}}';
+        document.head.appendChild(st);
+      }
     }
     fixHomeLabel();
     setTimeout(fixHomeLabel,100);
