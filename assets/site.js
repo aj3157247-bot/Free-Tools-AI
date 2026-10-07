@@ -203,5 +203,13 @@
     }).catch(function(){});
   }
   applyDirection();
-  document.addEventListener('DOMContentLoaded', function(){makeMenu();installReliableNavigation();translateHome();translateDownloadPage();ftAds();ftAnalytics();});
+  document.addEventListener('DOMContentLoaded', function(){
+    makeMenu();installReliableNavigation();translateHome();translateDownloadPage();ftAds();ftAnalytics();
+    /* Centralized share + language UI. No per-page translation arrays or SEO metadata changes. */
+    (function(){
+      if(document.getElementById('ftGlobalShareScript')) return;
+      var css=document.createElement('link');css.rel='stylesheet';css.href='/assets/global-seo.css';document.head.appendChild(css);
+      var s=document.createElement('script');s.id='ftGlobalShareScript';s.src='/assets/global-share.js';s.defer=true;document.body.appendChild(s);
+    })();
+  });
 })();
