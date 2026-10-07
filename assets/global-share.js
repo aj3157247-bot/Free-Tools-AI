@@ -50,18 +50,21 @@
     document.getElementById('ftIntlLang').addEventListener('click',function(e){e.stopPropagation();menu.classList.toggle('open');});
     document.addEventListener('click',function(e){if(!actions.contains(e.target))menu.classList.remove('open');});
 
-    /* Fix the visible home link in every localized page; no metadata is changed. */
-    var home=header.parentElement.querySelector('.secondaryBtn');
-    if(home){
+    /* Robustly localize the English/Home link on every localized home page. */
+    function fixHomeLabel(){
       var labels={
-        ar:'English / الصفحة الرئيسية',
-        fa:'English / خانه',
-        es:'English / Inicio',
-        hi:'English / होम',
-        de:'English / Startseite'
+        ar:'الصفحة الرئيسية / English',
+        fa:'خانه / English',
+        es:'Inicio / English',
+        hi:'होम / English',
+        de:'Startseite / English'
       };
-      home.textContent=labels[c]||'English / Home';
+      var label=labels[c]||'English / Home';
+      document.querySelectorAll('.intlActions a.secondaryBtn, main .secondaryBtn, a.secondaryBtn[href="/"]').forEach(function(el){el.textContent=label;});
     }
+    fixHomeLabel();
+    setTimeout(fixHomeLabel,100);
+    setTimeout(fixHomeLabel,500);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
