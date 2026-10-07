@@ -66,6 +66,35 @@
     document.addEventListener('touchend',go,true);
   }
 
+
+  function ftShareButton(){
+    if(document.getElementById('ftCentralShare')) return;
+    var actions=document.querySelector('.navActions');
+    if(!actions) return;
+    var b=document.createElement('button');
+    b.id='ftCentralShare';
+    b.type='button';
+    b.className='ftShareBtn';
+    b.textContent='↗ '+(lang==='fa'?'اشتراک‌گذاری':'Share');
+    b.setAttribute('aria-label',lang==='fa'?'اشتراک‌گذاری این صفحه':'Share this page');
+    b.addEventListener('click',function(){
+      var data={title:document.title||'FreeTools AI',
+        text:(document.querySelector('meta[name="description"]')||{}).content||'FreeTools AI',
+        url:location.href};
+      if(navigator.share){ navigator.share(data).catch(function(){}); return; }
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(location.href).then(function(){ftShareNotice(lang==='fa'?'لینک کپی شد':'Link copied');}).catch(function(){});
+      }
+    });
+    actions.insertBefore(b,actions.firstChild);
+  }
+  function ftShareNotice(msg){
+    var old=document.getElementById('ftShareNotice'); if(old) old.remove();
+    var n=document.createElement('div'); n.id='ftShareNotice'; n.textContent=msg;
+    n.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99999;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;font:600 14px system-ui,sans-serif;box-shadow:0 10px 30px #0003';
+    document.body.appendChild(n); setTimeout(function(){n.remove();},1600);
+  }
+
   function applyDirection(){ document.documentElement.lang=lang; document.documentElement.dir=lang==='fa'?'rtl':'ltr'; document.body.classList.toggle('rtl',lang==='fa'); }
   function translateHome(){
     if(location.pathname!=='/' && location.pathname!=='/index.html') return;
@@ -203,13 +232,5 @@
     }).catch(function(){});
   }
   applyDirection();
-  document.addEventListener('DOMContentLoaded', function(){
-    makeMenu();installReliableNavigation();translateHome();translateDownloadPage();ftAds();ftAnalytics();
-    /* Centralized share + language UI. No per-page translation arrays or SEO metadata changes. */
-    (function(){
-      if(document.getElementById('ftGlobalShareScript')) return;
-      var css=document.createElement('link');css.rel='stylesheet';css.href='/assets/global-seo.css';document.head.appendChild(css);
-      var s=document.createElement('script');s.id='ftGlobalShareScript';s.src='/assets/global-share.js';s.defer=true;document.body.appendChild(s);
-    })();
-  });
+  document.addEventListener('DOMContentLoaded', function(){makeMenu();ftShareButton();installReliableNavigation();translateHome();translateDownloadPage();ftAds();ftAnalytics();});
 })();
